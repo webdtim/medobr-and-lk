@@ -1,0 +1,110 @@
+doctype html
+html(lang="ru")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Project
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/app.min.css">
+  body.body
+    .container
+      .speaker 
+        .speaker__photo
+          img(src="/img/speaker/Starkov-Aleksey.jpg", alt="спикер")
+        .speaker__info
+          .speaker__name Луговой Артем Олегович
+          .speaker__desc Врач анестезиолог-реаниматолог, кандидат медицинских наук.
+          ul
+            li Присвоен статус «МОСКОВСКИЙ ВРАЧ». Получил квалификацию ERC Basic Life Support (BLS) Кандидат-инструктор.
+            li Действительный член профессиональных объединений: «Федерация анестезиологов-реаниматологов» (ФАР), «Московское научно-практическое общество анестезиологов-реаниматологов» (МНОАР), «Ассоциация акушерских анестезиологов-реаниматологов» (АААР).
+            li Автор 18 научных работ.
+    .typ__container.typ__container--carousel.typ__container--pt0
+      h2.h2.h2--pb20 Запланированные семинары:
+      .amo-carousel 
+        .amo-carousel__wrapper.owl-carousel
+
+          mixin card(name, speakers)
+            .amo-carousel__card
+              .amo-carousel__card-header 
+                img.amo-carousel__img(src="img/tea.png", alt="")
+              .amo-carousel__info-top
+                .amo-carousel__date-wrap 
+                  .amo-carousel__date 05 Сентября
+                  .amo-carousel__day Воскресенье
+                if block 
+                  block 
+                else
+                  .nmo-tag
+                    .nmo-tag__body
+                      .nmo-tag__value + 36 НМО
+                      .nmo-tag__state
+                    .nmo-tag__tooltip
+                      .nmo-tag__tooltip-caption Согласовано
+                      p.nmo-tag__tooltip-text Мероприятие утверждено порталом НМО
+              .amo-carousel__card-body
+                .amo-carousel__card-name
+                  a.amo-carousel__a(href="#")=name
+                .amo-carousel__card-bottom
+                  .amo-carousel__speakers-label Семинар ведут:
+                  .amo-carousel__speakers 
+                    each val in speakers
+                      .amo-carousel__speaker=val
+          +card('Анатомо-физиологические особенности женской репродуктивной системы в детском и подростковом возрасте... ', ['8 спикеров'])
+            .mark-free
+              .mark-free__text БЕСПЛАТНО
+          +card('Детском и подростковом возрасте', ['Амурскаярусалочка Т. П.', 'Константинопольский И. В.'])
+          +card('Привет Артемий', ['Опа Т. П.', 'Поп И. В.'])
+          //- +card('Анатомо-физиологические особенности женской репродуктивной системы в детском и подростковом возрасте системы в детском и подростковом возрасте системы в детском и подростковом возрасте системы в детском и подростковом возрасте ', ['8 спикеров'])
+          //- +card('Детском и подростковом возрасте', ['Амурскаярусалочка Т. П.', 'Константинопольский И. В.'])
+          +card('Привет Артемий', ['Опа Т. П.', 'Поп И. В.'])
+            .mark-free
+              .mark-free__text БЕСПЛАТНО
+          //- +card('Анатомо-физиологические особенности женской репродуктивной системы в детском и подростковом возрасте... ', ['8 спикеров'])
+          //-   .mark-free
+          //-     .mark-free__text БЕСПЛАТНО
+          +card('Детском и подростковом возрасте', ['Амурскаярусалочка Т. П.', 'Константинопольский И. В.'])
+          +card('Привет Артемий', ['Опа Т. П.', 'Поп И. В.'])
+          .amo-carousel__card.amo-carousel__card--more
+            img.amo-carousel__icon(src="/img/like.svg")
+            .amo-carousel__text.amo-carousel__text--big У нас:
+            .amo-carousel__text Болле 140 запланированных семинаров
+            .amo-carousel__text 120 семинаров с баллами НМО
+            .amo-carousel__text 62 профессиональных спикера
+            .amo-carousel__text.amo-carousel__text--p-big.amo-carousel__text--big Хотите больше семинаров?
+            a.btn.btn--yellow(href='#') Перейти в раздел
+        .amo-carousel__dots
+    .container
+      h2.h2 Проведенные семианры:
+      .speaker-seminars
+        .speaker-seminars__item.speaker-seminars__item--show
+          .speaker-seminars__date
+            .speaker-seminars__text 30 Сентября
+            .speaker-seminars__week Пн
+          a.speaker-seminars__title(href="#") Правовые аспекты работы детского гинеколога с учетом всех нововведений. Самые распространенные
+        .speaker-seminars__item.speaker-seminars__item--show
+          .speaker-seminars__date 
+            .speaker-seminars__text 30 Сентября
+            .speaker-seminars__week Пн
+          a.speaker-seminars__title(href="#") Правовые аспекты работы детского
+        .speaker-seminars__item.speaker-seminars__item--show
+          .speaker-seminars__date 
+            .speaker-seminars__text 30 Сентября
+            .speaker-seminars__week Пн
+          a.speaker-seminars__title(href="#") Правовые аспекты работы детского гинеколога с учетом всех нововведений. Самые распространенные заболевани у ...
+        .speaker-seminars__item.speaker-seminars__item--show
+          .speaker-seminars__date 
+            .speaker-seminars__text 30 Сентября
+            .speaker-seminars__week Пн
+          a.speaker-seminars__title(href="#") Правовые аспекты работы детского гинеколога с учетом всех нововведений. Самые распространенные заболевани у ...
+        button.btn.btn--show-more
+          span Показать еще
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="js/owl.carousel.min.js"></script>
+
+    <script src="js/script.js"></script>

@@ -1,0 +1,222 @@
+doctype html
+html(lang="ru")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Project
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/app.min.css">
+  body.body
+    .container.d-flex.flex-wrap(style="margin-top:50px;")
+      .col-8
+        h1.big-text Ваш личный кабинет
+        .your-name
+          .bold-text Гордиенко Артем Юрьевич
+          .green-discount Скидка 50% на семинары
+        .spec-wrap
+          .your-spec 
+            .bold-text Стоматолог-хирург
+            .light-text Дата окончания сертификата: 
+              b 21.03.25
+            .light-text Имеется баллов НМО: 
+              b 144
+          .your-spec 
+            .bold-text Стоматолог-хирург
+            .light-text Дата окончания сертификата: 
+              b 21.03.25
+            .light-text Имеется баллов НМО: 
+              b 144
+          .your-spec 
+            .bold-text Стоматолог-хирург
+            .light-text Дата окончания сертификата: 
+              b 21.03.25
+            .light-text Имеется баллов НМО: 
+              b 144
+        button.btn.btn--white(data-open-modal-id='#lk-info') Детальная информация
+      .col-4
+        .your-manager 
+          .light-text Ваш персональный менеджер
+          .light-text 
+            b Никишин Антон Валерьевич
+          .bold-text +7 (495) 247-47-47, доб. 1841
+          button.btn.btn--white.btn--black-border Обратный звонок
+    .modal-block.modal-block--lk#lk-info-change(style="display:none;")
+      .modal-block__wrap
+        .modal-block__content
+          .modal-block__head
+            .modal-block__head-title Заполните информацию
+            button.modal-block__head-close
+              img(alt="close" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAlCAYAAAAqXEs9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjMxREVDMEM0MEY0RTExRUFCMkE5RUJFMzJEOUQ0REFEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjMxREVDMEM1MEY0RTExRUFCMkE5RUJFMzJEOUQ0REFEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MzFERUMwQzIwRjRFMTFFQUIyQTlFQkUzMkQ5RDREQUQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MzFERUMwQzMwRjRFMTFFQUIyQTlFQkUzMkQ5RDREQUQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5ZVFPBAAADVUlEQVR42ryYWUgVURjHr1NEi2JU2uKS2WqGLRRRWVGhkUUURVhESCsFZvrWUy9B9dIe0SYSEVG0ErYnkW0ULZTaorigkdrCbaOEsv+B/8Dxa67emTtzP/g9zDfbjzPnnO+cicheW+BjxIEGX/gjDWwHS4HfYDIdvAb5YZYZBW6COeAGiFZCU0AxiAQ7waYwyaSC2yCGxxPAaSW0GURpFyqpPI9lUoSMCj/YooSyQal2IgLsArkeyYygTKyW+wqywEMl9J0H94XUHrDBZZnhlOmn5b7p7zdE8oGQ2g/WuSQzjDL9tZzZGPfMhCG+oertj4TUQbAmRJmhlBmg5X5QRu8ubYRMqdngsZA6BFY5lBlMmTgt9xPMBXflxYbFA5RUBngipI6AlTZlkkEJiBcy88AdqxuMAA9SUpngqZA6DHKClBlEmQQhM595nx0hFV/YUs+0XCdwFKzoQCaJL00UMgvArfZuNDp48GdKPRdShWB5gHsSKTNQy/0CC1kefKEIqfhEqRdCqggsE9cmUCZJy/2mzPVgvrMRZH/4SKlXQuo4WMLjeMoka9e0UOZqsKPAsDFimsFMUCakTrLMlHCIS5krdoalYXMYm1LlQmovGCJkFnEV4fNSSEUTpSoCnG/hZ7zsZBZ1IqSikR261eKcKsoXndYYp0J92XciLM7lcfILm1Asa1NKgPNdwBmWB8+FYigzUsv9ARtBpZA6y2rumVAMF+SpQkbN2PvADFAlpM5zSeO6UB9O+2lCRtW0Uzyu5+irFlLnuKRxTag3ZUYLmRx2bD3q2FI1Wq4rWyrTDaFelBkjZNS66ESAe2opVavlulEqIxShnpQZq+X+gtWsYe1FDaXqtFx3cAHMciIUTZlxWq6Va+uiILtDNftUvZC6BKbbETJlxlvIFNocxVVsKSmlaty0YISUzDVua3UZtRU65nDyrWRLNVhITW1PKJpLhYlCZj0X+KHEO0q913I9KJVuJRTFk5OETC63QG7EW0p90HKRfO9kXei/JGVUkTzg8lb6DaUatVybxjA406YLmXyWAy+iglJNVt1FCW3j3t6MAq5pvIxySjULqa0GN/pZ3Pgrmd1h+mFVxknSlFI75cWdeVDK/zbh/sf4kuVkB/9T+f8JMABl7MG5NjxABwAAAABJRU5ErkJggg==")
+          .modal-block__body
+            ul.nav.nav-tabs
+              li.nav-item
+                a.nav-link.active(data-toggle="tab" href="#contacts") Контактные данные
+              li.nav-item
+                a.nav-link(data-toggle="tab" href="#yourspec") Ваша специальность
+              li.nav-item
+                a.nav-link(data-toggle="tab" href="#adress") Адрес отправки <br> документов
+              li.nav-item
+                a.nav-link(data-toggle="tab" href="#yourdocuments") Ваши документы
+            .tab-content
+              .tab-pane.fade.show.active#contacts
+                form
+                  .modal-block__p-and-border
+                    .modal-block__inputs-wrap
+                      label.modal-block__label.standart-label
+                        span Фамилия
+                        input.modal-block__body-input(placeholder="Иванов")
+                      label.modal-block__label.standart-label
+                        span Имя
+                        input.modal-block__body-input(placeholder="Иван")
+                      label.modal-block__label.standart-label
+                        span Отчество
+                        input.modal-block__body-input(placeholder="Иванович")
+                    .modal-block__inputs-wrap
+                      label.modal-block__label.standart-label
+                        span Ваш e-mail
+                        input.modal-block__body-input(type="text" placeholder="Email" required)
+                      label.modal-block__label.standart-label
+                        span Ваш телефон
+                        input.modal-block__body-input(type="text" placeholder="+7 (999) 999-99-99" required)
+                  button.btn.btn-block.modal-block__body-btn Продолжить
+              .tab-pane.fade#yourspec
+                form
+                  .modal-block__p-and-border
+                    .modal-block__inputs-wrap
+                      label.modal-block__label.standart-label
+                        span Специальность
+                        select(placeholder="Стоматолог") 
+                          option Стоматолог
+                      label.modal-block__label.standart-label
+                        span Дата окончания <br> сертификата
+                        input.modal-block__body-input(placeholder="12.03.2025")
+                      label.modal-block__label.standart-label
+                        span Текущее кол-во <br> баллов НМО
+                        input.modal-block__body-input(placeholder="123")
+                  button.btn.btn-block.modal-block__body-btn Продолжить
+              .tab-pane.fade#adress
+                form
+                  .modal-block__p-and-border
+                    .modal-block__inputs-wrap
+                      label.modal-block__label.standart-label
+                        span Город
+                        input.modal-block__body-input(placeholder="Москва")
+                      label.modal-block__label.standart-label
+                        span Почтовый индекс
+                        input.modal-block__body-input(placeholder="000 000")
+                      label.modal-block__label.standart-label
+                        span Адрес отправки документов
+                        input.modal-block__body-input(placeholder="Ул. Юнатов, д1, п7, кв 153")
+                    .modal-block__inputs-wrap
+                      label.modal-block__label.standart-label
+                        span Получатель документов
+                        input.modal-block__body-input(type="text" placeholder="Иванов Иван" required)
+                  button.btn.btn-block.modal-block__body-btn Продолжить
+              .tab-pane.fade#yourdocuments
+                form
+                  .modal-block__p-and-border
+                    .modal-block__inputs-wrap
+                      label.modal-block__label.standart-label
+                        span Паспорт
+                        .custom-file#customFile
+                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                          label.custom-file-label(for="exampleInputFile") Файл не выбран
+                      label.modal-block__label.standart-label
+                        span Договор
+                        .custom-file#customFile
+                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                          label.custom-file-label(for="exampleInputFile") Файл не выбран
+                    .modal-block__inputs-wrap
+                      label.modal-block__label.standart-label
+                        span Паспорт
+                        .custom-file#customFile
+                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                          label.custom-file-label(for="exampleInputFile") Файл не выбран
+                      label.modal-block__label.standart-label
+                        span Договор
+                        .custom-file#customFile
+                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                          label.custom-file-label(for="exampleInputFile") Файл не выбран
+                    .modal-block__inputs-wrap
+                      label.modal-block__label.standart-label
+                        span Паспорт
+                        .custom-file#customFile
+                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                          label.custom-file-label(for="exampleInputFile") Файл не выбран
+                      label.modal-block__label.standart-label
+                        span Договор
+                        .custom-file#customFile
+                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                          label.custom-file-label(for="exampleInputFile") Файл не выбран
+                    .modal-block__inputs-wrap
+                      label.modal-block__label.standart-label
+                        span Паспорт
+                        .custom-file#customFile
+                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                          label.custom-file-label(for="exampleInputFile") Файл не выбран
+                      label.modal-block__label.standart-label
+                        span Договор
+                        .custom-file#customFile
+                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                          label.custom-file-label(for="exampleInputFile") Файл не выбран
+                  button.btn.btn-block.modal-block__body-btn Завершить
+    .modal-block.modal-block--lk#lk-thanks(style="display:none;")
+      .modal-block__wrap
+        .modal-block__content
+          .modal-block__head
+            button.modal-block__head-close
+              img(alt="close" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAlCAYAAAAqXEs9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjMxREVDMEM0MEY0RTExRUFCMkE5RUJFMzJEOUQ0REFEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjMxREVDMEM1MEY0RTExRUFCMkE5RUJFMzJEOUQ0REFEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MzFERUMwQzIwRjRFMTFFQUIyQTlFQkUzMkQ5RDREQUQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MzFERUMwQzMwRjRFMTFFQUIyQTlFQkUzMkQ5RDREQUQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5ZVFPBAAADVUlEQVR42ryYWUgVURjHr1NEi2JU2uKS2WqGLRRRWVGhkUUURVhESCsFZvrWUy9B9dIe0SYSEVG0ErYnkW0ULZTaorigkdrCbaOEsv+B/8Dxa67emTtzP/g9zDfbjzPnnO+cicheW+BjxIEGX/gjDWwHS4HfYDIdvAb5YZYZBW6COeAGiFZCU0AxiAQ7waYwyaSC2yCGxxPAaSW0GURpFyqpPI9lUoSMCj/YooSyQal2IgLsArkeyYygTKyW+wqywEMl9J0H94XUHrDBZZnhlOmn5b7p7zdE8oGQ2g/WuSQzjDL9tZzZGPfMhCG+oertj4TUQbAmRJmhlBmg5X5QRu8ubYRMqdngsZA6BFY5lBlMmTgt9xPMBXflxYbFA5RUBngipI6AlTZlkkEJiBcy88AdqxuMAA9SUpngqZA6DHKClBlEmQQhM595nx0hFV/YUs+0XCdwFKzoQCaJL00UMgvArfZuNDp48GdKPRdShWB5gHsSKTNQy/0CC1kefKEIqfhEqRdCqggsE9cmUCZJy/2mzPVgvrMRZH/4SKlXQuo4WMLjeMoka9e0UOZqsKPAsDFimsFMUCakTrLMlHCIS5krdoalYXMYm1LlQmovGCJkFnEV4fNSSEUTpSoCnG/hZ7zsZBZ1IqSikR261eKcKsoXndYYp0J92XciLM7lcfILm1Asa1NKgPNdwBmWB8+FYigzUsv9ARtBpZA6y2rumVAMF+SpQkbN2PvADFAlpM5zSeO6UB9O+2lCRtW0Uzyu5+irFlLnuKRxTag3ZUYLmRx2bD3q2FI1Wq4rWyrTDaFelBkjZNS66ESAe2opVavlulEqIxShnpQZq+X+gtWsYe1FDaXqtFx3cAHMciIUTZlxWq6Va+uiILtDNftUvZC6BKbbETJlxlvIFNocxVVsKSmlaty0YISUzDVua3UZtRU65nDyrWRLNVhITW1PKJpLhYlCZj0X+KHEO0q913I9KJVuJRTFk5OETC63QG7EW0p90HKRfO9kXei/JGVUkTzg8lb6DaUatVybxjA406YLmXyWAy+iglJNVt1FCW3j3t6MAq5pvIxySjULqa0GN/pZ3Pgrmd1h+mFVxknSlFI75cWdeVDK/zbh/sf4kuVkB/9T+f8JMABl7MG5NjxABwAAAABJRU5ErkJggg==")
+          .modal-block__body.modal-block__body--center
+            h2.big-text.big-text--modal Поздравляем!
+            p.text Теперь вам доступна скидка 50% на семинары
+            button.btn.btn--small.modal-block__body-btn Понятно
+    .modal-block.modal-block--lk#lk-info(style="display:block;")
+      .modal-block__wrap
+        .modal-block__content
+          .modal-block__head
+            .modal-block__head-title Детальная информация
+            button.modal-block__head-close
+              img(alt="close" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAlCAYAAAAqXEs9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjMxREVDMEM0MEY0RTExRUFCMkE5RUJFMzJEOUQ0REFEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjMxREVDMEM1MEY0RTExRUFCMkE5RUJFMzJEOUQ0REFEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MzFERUMwQzIwRjRFMTFFQUIyQTlFQkUzMkQ5RDREQUQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MzFERUMwQzMwRjRFMTFFQUIyQTlFQkUzMkQ5RDREQUQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5ZVFPBAAADVUlEQVR42ryYWUgVURjHr1NEi2JU2uKS2WqGLRRRWVGhkUUURVhESCsFZvrWUy9B9dIe0SYSEVG0ErYnkW0ULZTaorigkdrCbaOEsv+B/8Dxa67emTtzP/g9zDfbjzPnnO+cicheW+BjxIEGX/gjDWwHS4HfYDIdvAb5YZYZBW6COeAGiFZCU0AxiAQ7waYwyaSC2yCGxxPAaSW0GURpFyqpPI9lUoSMCj/YooSyQal2IgLsArkeyYygTKyW+wqywEMl9J0H94XUHrDBZZnhlOmn5b7p7zdE8oGQ2g/WuSQzjDL9tZzZGPfMhCG+oertj4TUQbAmRJmhlBmg5X5QRu8ubYRMqdngsZA6BFY5lBlMmTgt9xPMBXflxYbFA5RUBngipI6AlTZlkkEJiBcy88AdqxuMAA9SUpngqZA6DHKClBlEmQQhM595nx0hFV/YUs+0XCdwFKzoQCaJL00UMgvArfZuNDp48GdKPRdShWB5gHsSKTNQy/0CC1kefKEIqfhEqRdCqggsE9cmUCZJy/2mzPVgvrMRZH/4SKlXQuo4WMLjeMoka9e0UOZqsKPAsDFimsFMUCakTrLMlHCIS5krdoalYXMYm1LlQmovGCJkFnEV4fNSSEUTpSoCnG/hZ7zsZBZ1IqSikR261eKcKsoXndYYp0J92XciLM7lcfILm1Asa1NKgPNdwBmWB8+FYigzUsv9ARtBpZA6y2rumVAMF+SpQkbN2PvADFAlpM5zSeO6UB9O+2lCRtW0Uzyu5+irFlLnuKRxTag3ZUYLmRx2bD3q2FI1Wq4rWyrTDaFelBkjZNS66ESAe2opVavlulEqIxShnpQZq+X+gtWsYe1FDaXqtFx3cAHMciIUTZlxWq6Va+uiILtDNftUvZC6BKbbETJlxlvIFNocxVVsKSmlaty0YISUzDVua3UZtRU65nDyrWRLNVhITW1PKJpLhYlCZj0X+KHEO0q913I9KJVuJRTFk5OETC63QG7EW0p90HKRfO9kXei/JGVUkTzg8lb6DaUatVybxjA406YLmXyWAy+iglJNVt1FCW3j3t6MAq5pvIxySjULqa0GN/pZ3Pgrmd1h+mFVxknSlFI75cWdeVDK/zbh/sf4kuVkB/9T+f8JMABl7MG5NjxABwAAAABJRU5ErkJggg==")
+          .modal-block__body
+            .info-lk
+              .info-lk__inner
+                .info-lk__block
+                  .info-lk__label Фамилия
+                  .info-lk__text Гордиенко
+                .info-lk__block
+                  .info-lk__label Имя
+                  .info-lk__text Гордиенко
+                .info-lk__block
+                  .info-lk__label Отчество
+                  .info-lk__text Гордиенко
+              .info-lk__inner
+                .info-lk__block
+                  .info-lk__label E-mail
+                  .info-lk__text a.gordienko@snta.ru
+                .info-lk__block
+                  .info-lk__label Телефон
+                  .info-lk__text +7 925 333-33-33
+                .info-lk__block
+                  .info-lk__label Почтовый адрес доставки
+                  .info-lk__text 125057, Москва, Ленинградский проспект 71кД, п.19, кв. 925
+                .info-lk__block
+                  .info-lk__label Получатель документов
+                  .info-lk__text Смирнов Василий Евгеньевич
+            .info-lk
+              .info-lk__inner
+                .info-lk__block
+                  .info-lk__label Специальность 1
+                  .info-lk__text Акушер-гинеколог - 20.03.25 - 144
+                .info-lk__block
+                  .info-lk__label Специальность 2
+                  .info-lk__text Бактериолог - 20.03.25 - 144
+                .info-lk__block
+                  .info-lk__label Специальность 3
+                  .info-lk__text Стоматолог - 20.03.25 - 144
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="js/lk.js"></script>

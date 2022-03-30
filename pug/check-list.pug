@@ -1,0 +1,210 @@
+doctype html
+html(lang="ru")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Project
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/app.min.css">
+  body.body
+    .container
+      h1.h1-center Портфель к аккредитации
+      p.p-center Мы создали чек-листы, которые помогут Вам разобраться с типом предстоящей аккредитации и необходимым набором документов
+      .checklist-block
+        .checklist-block__step 
+          span 1
+        h2.checklist-block__h2 Выберите аккредитацию для формирования чек листа
+        .checklist-block__btns 
+          #first-accr.checklist-block__btn
+            p Первичная специализированная аккредитация
+            .tooltip-info(data-target-modal="modal-tooltip" data-only-up-width="1200")
+              .tooltip-info__icon 
+                svg 
+                  use(xlink:href="img/sprite.svg#info")
+              .tooltip-info__text Для лиц, завершивших освоение основных образовательных программ высшего медицинского образования и высшего фармацевтического образования – программ ординатуры, дополнительных профессиональных программ – программ профессиональной переподготовки, а также лиц, получивших образование на территории иностранного государства
+          #period-accr.checklist-block__btn
+            p Периодическая аккредитация
+            .tooltip-info(data-target-modal="modal-tooltip" data-only-up-width="1200")
+              .tooltip-info__icon 
+                svg 
+                  use(xlink:href="img/sprite.svg#info")
+              .tooltip-info__text Для лиц, которые уже получали сертификат или свидетельство об аккредитации, и им нужно получать очередной допуск к медицинской деятельности по своей специальности
+      #first-accr-block.accr-block
+        #first-accr-list.checklist-block
+          .checklist-block__step 
+            span 2
+          h2.checklist-block__h2 Проверьте, собраны ли все документы для прохождения первичной специализированной аккредитации
+          ul.checklist
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span заявление о допуске к аккредитации специалиста;
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копия документа, удостоверяющего личность;
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копия документа, подтверждающего факт изменения фамилии, имени, отчества(при наличии);
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копия сертификата специалиста (при наличии) и (или) сведения о прохождении аккредитации специалиста (при наличии);
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копии документов об образовании и о квалификации, или выписка из протокола заседания государственной экзаменационной комиссии;
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копии документов о квалификации, подтверждающих повышение или присвоение квалификации по результатам дополнительного профессионального образования(при наличии);
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копию трудовой книжки или сведения о трудовой деятельности (при наличии), или копии иных документов, подтверждающих наличие стажа медицинской деятельности или фармацевтической деятельности, предусмотренных законодательством Российской Федерации о военной и иной приравненной к ней службе (при наличии);
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span СНИЛС
+          button#check-first.btn.btn--light-green Проверить
+      #accr-block.accr-block
+        #accr-list.checklist-block
+          .checklist-block__step 
+            span 2
+          h2.checklist-block__h2 Проверьте, все ли документы собраны для прохождения периодической аккредитации
+          ul.checklist
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span заявление о допуске к периодической аккредитации специалиста;
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копия документа, удостоверяющего личность;
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копия документа, подтверждающего факт изменения фамилии, имени, отчества(при наличии);
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копия сертификата специалиста (при наличии) и (или) сведения о прохождении аккредитации специалиста (при наличии);
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копии документов об образовании и о квалификации и приложение к документу (диплому) о среднем профессиональном образовании или копию выписки из протокола заседания государственной экзаменационной комиссии )
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копии документов о квалификации, подтверждающих повышение или присвоение квалификации по результатам дополнительного профессионального образования(при наличии);
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копии документов о квалификации, подтверждающих сведения об освоении программ повышения квалификации за отчетный период;
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span копия трудовой книжки или сведения о трудовой деятельности (при наличии), или копии иных документов, подтверждающих наличие стажа медицинской или фармацевтической деятельности, предусмотренные законодательством Российской Федерации о военной и иной приравненной к ней службе (при наличии);
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span СНИЛС.
+          h3.checklist-block__h3 Портфолио:
+          ul.checklist
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span отчет о профессиональной деятельности;
+              .tooltip-info(data-target-modal="modal-tooltip" data-only-up-width="1200")
+                .tooltip-info__icon 
+                  svg 
+                    use(xlink:href="img/sprite.svg#info")
+                .tooltip-info__text Отчет о профессиональной деятельности согласовывается руководителем организации, в которой аккредитуемый осуществляет профессиональную деятельность, и заверяется печатью указанной организации (при наличии); В случае, если на момент представления в Федеральные аккредитационные центры аккредитуемый является временно не работающим или индивидуальным предпринимателем, или руководителем медицинской или фармацевтической организации в портфолио включается несогласованный отчет о профессиональной деятельности по последнему месту работы аккредитуемого.
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span сведения об освоении программ повышения квалификации, суммарный срок освоения которых не менее 144 часов;
+            li.checklist__li 
+              label.checklist__checkbox
+                input(type="checkbox")
+                span мотивированный отказ в согласовании отчета о профессиональной деятельности (при наличии)
+              .tooltip-info(data-target-modal="modal-tooltip" data-only-up-width="1200")
+                .tooltip-info__icon 
+                  svg 
+                    use(xlink:href="img/sprite.svg#info")
+                .tooltip-info__text Либо к нему прилагается мотивированный отказ в его согласовании, подписанный руководителем организации.
+          button#check.btn.btn--light-green Проверить
+      #all-suc.checklist-block.checklist-block--form.checklist-block--hide
+        .checklist-block__step
+          span 3
+        h2.checklist-block__h2 Ого, кажется вы все собрали!
+        p.checklist-block__p.checklist-block__p--padding-desc Вы можете отправить все документы в Центр аккредитации медработников. Узнать адреса центров и время работы вы можете здесь
+        .checklist-block__recomendation
+          .checklist-block__step.checklist-block__step--war
+            span !
+          h2.checklist-block__h2 Рекомендация:
+          p.checklist-block__p Около 50% медицинских работников не проходят аккредитацию из-за неправильно собранных документов.  Мы рекомендуем Вам ознакомиться с образцами заполнения и проверить себя
+        .checklist-block__form
+          h2.checklist-block__h2 Оставьте почту, и мы направим Вам шаблоны и образцы документов.
+          form(action="")
+            input(type="text" placeholder="Ваш емейл")
+            button.btn.btn--green Получить шаблон
+          .checklist-block__desc Отправляя заявку - вы соглашаетесь с 
+            a(href="#" data-modal="true" data-modal-id="#police_modal") политикой конфиденциальности
+      #error.checklist-block.checklist-block--form.checklist-block--hide
+        .checklist-block__step.checklist-block__step--war
+          span 3
+        h2.checklist-block__h2 Вы собрали не все документы
+        p.checklist-block__p.checklist-block__p--padding-desc Мы рекомендуем Вам ознакомиться с образцами заполнения и проверить себя
+        .checklist-block__form
+          h2.checklist-block__h2 Оставьте почту, и мы направим Вам шаблоны и образцы документов.
+          form(action="")
+            input(type="text" placeholder="Ваш емейл")
+            button.btn.btn--green Получить шаблон
+          .checklist-block__desc Отправляя заявку - вы соглашаетесь с 
+            a(href="#" data-modal="true" data-modal-id="#police_modal") политикой конфиденциальности
+    section.section--yellow
+      .container
+        .checklist-block.checklist-block--banner
+          .checklist-block__form
+            h2.checklist-block__h2 Нужна помощь с подготовкой к аккредитации?
+            p.checklist-block__p Академия может предложить сопровождение по набору баллов НМО и помощь с заполнением портфолио для аккредитации.
+            form(action="")
+              input(type="text" placeholder="Номер телефона")
+              button.btn.btn--yellow Жду звонка
+            .checklist-block__desc Отправляя заявку - вы соглашаетесь с 
+              a(href="#" data-modal="true" data-modal-id="#police_modal") политикой конфиденциальности
+          .checklist-block__img
+            img(src="img/female.png", alt="помощь врачам с подготовкой к аккредитации")
+    .need-help
+      .need-help__text Нужна помощь с подготовкой к аккредитации?
+      svg.need-help__icon
+        use(xlink:href="img/sprite.svg#arrows")
+    .modal-amo.modal-amo--simple(id="modal-tooltip")
+      .modal-amo__layout(data-target-close="modal-tooltip")
+      .modal-amo__content
+        .modal-amo__header
+          .modal-amo__title Заголовок
+          button.modal-amo__close(data-target-close="modal-tooltip")
+            svg 
+              use(xlink:href="img/sprite.svg#close")
+        .modal-amo__body
+          .modal-amo__text Описание
+
+
+    //- .modal.fade#modalMarkHelp(role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+    //-   .modal-dialog(role="document")
+    //-     .modal-content
+    //-       .modal-body
+    //-         #need-help-modal-text Hello!
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    //- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    //- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    //- <script src="js/script.min.js"></script>
+    <script src="js/script.js"></script>

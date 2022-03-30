@@ -1,0 +1,255 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0, minimum-scale=1")
+        title Список семинаров
+        link(rel="font", href="fonts/Circe-Light.woff", type="font/woff")
+        link(rel="font", href="fonts/Circe-ExtraBold.woff", type="font/woff")
+        link(rel="font", href="fonts/Circe-Regular.woff", type="font/woff")
+        link(rel="font", href="fonts/Circe-Bold.woff", type="font/woff")
+        link(rel="stylesheet", href="css/main.css")
+        link(rel="stylesheet", href="css/app.min.css")
+        script(src="js/main.js") 
+    body
+        .container.seminars-list-page
+            .row
+                .col-lg-3
+                    .sidebar-filters
+                        .sidebar-filters__heading Семинары
+
+                        .sidebar-filters__nav-wrap
+                            //- Основное поле поиска
+                            input(type="search", name="", class="form-control sidebar-filters__main-search")
+
+                            //- Мобильная кнопка для открытия меню
+                            button(onclick="toogleMobileNav();", class="btn show-mobile-filters") Фильтры
+
+                        //- Враппер для ВСЕХ фильтров
+                        #filters-wrap
+
+                            //-button().filters-wrap__show-result-btn Показать 13 мероприятий
+
+                            button(onclick="toogleMobileNav();", class="close-mobile-filters")
+
+                            //- Фильтр категорий //////////////////////////////////////////////////// 
+                            #filter-cats.filter
+                                .filter__heading Категории
+
+                                //- Поле поиска по текущему блоку в фильтре
+                                input(type="search", name="", id="cat-search", class="filter__search-field form-control", data-search-target="#filter-cats")
+
+                                //- Контейнер для инпутов
+                                .filter__labels-wrapper
+
+                                    mixin cats(name)
+                                        label().filter__label
+                                            input(type="checkbox")
+                                            span.cats=name
+                                    +cats('Акушерство')
+                                    +cats('Бактериология')
+                                    +cats('Стоматология')
+                                    +cats('Косметология')
+                                    +cats('Ковидология')
+                                    +cats('Гинекология')
+                                    +cats('Диетология')
+                                    +cats('Акушерство')
+                                    +cats('Бактериология')
+                                    +cats('Гинекология')
+                                    +cats('Акушерство')
+                                    +cats('Бактериология')
+                                    +cats('Гинекология')
+
+                                //- кнопка для показа скрытых инпутов инпутами
+                                //- Посылает айди блока в функцию
+                                button(onclick="unfoldFilter('filter-cats');") Показать всё 
+                            //- Конец фильтра //////////////////////////////////////////////////// 
+
+
+                            //- Фильтр типов //////////////////////////////////////////////////// 
+                            #filter-types.filter
+
+                                .filter__heading Типы обучения
+
+                                //- Поле поиска по текущему блоку в фильтре
+                                input(type="search", name="", id="cat-search", class="filter__search-field form-control")
+
+                                //- Контейнер для инпутов
+                                .filter__labels-wrapper
+
+                                    +cats('Очно')
+                                    +cats('Заочно')
+                                    +cats('Онлайн')
+                                    +cats('С баллами НМО')
+                                    +cats('Бесплатно')
+                                        
+                            //- Конец фильтра ////////////////////////////////////////////////////
+
+                            
+                            //- Фильтр специальностей НМО
+                            #filter-specs.filter.has-tabs
+
+                                .filter__heading Выбор специальности с НМО
+
+                                .filter__tabs-btns
+                                    button(data-tab-target="#vmp-tab") Высший мед. персонал
+                                    button(data-tab-target="#smp-tab") Средний мед персонал
+                                
+                                //- Поле поиска по текущему блоку в фильтре
+                                input(type="search", name="", id="specs-search", class="filter__search-field form-control")
+
+                                //- Контейнер для инпутов
+                                .filter__labels-wrapper
+                                
+                                    #vmp-tab(data-tab-content="").filter__labels-type-wrap.active
+                                        b Высшее медицинское образование
+                                        +cats('Акушерство')
+                                        +cats('Бактериология')
+                                        +cats('Стоматология')
+                                        +cats('Акушерство')
+                                        +cats('Бактериология')
+                                        +cats('Гинекология')
+                                        +cats('Акушерство')
+                                        +cats('Бактериология')
+                                        +cats('Гинекология')
+                                        +cats('Акушерство')
+                                        +cats('Бактериология')
+                                        +cats('Гинекология')
+                                        +cats('Акушерство')
+                                        +cats('Бактериология')
+                                        +cats('Гинекология')
+
+                                    #smp-tab(data-tab-content="").filter__labels-type-wrap.active    
+                                        b Среднее медицинское образование
+                                        +cats('Косметология')
+                                        +cats('Ковидология')
+                                        +cats('Гинекология')
+                                        +cats('Диетология')
+                                        +cats('Акушерство')
+                                        +cats('Бактериология')
+                                        +cats('Гинекология')
+                                        +cats('Акушерство')
+                                        +cats('Бактериология')
+                                        +cats('Гинекология')
+
+                                //- кнопка для показа скрытых инпутов инпутами
+                                //- Посылает айди блока в функцию
+                                button(onclick="unfoldFilter('filter-specs');") Показать всё     
+
+                                        
+
+
+
+
+
+                .col-lg-9
+                    .trajectory-banner
+                        .container
+                            .row
+                                .col-lg-9
+                                    .trajectory-banner__heading Траектория НМО 
+                                    .trajectory-banner__text Наш алгоритм сформирует для вас удобную программу обучения
+                                .col-lg-3
+                                    .trajectory-banner__cta
+                                        button().btn Сформировать бесплатно  
+                    
+                    .seminars-list.has-tabs
+
+                        //- Навигация табы
+                        .seminar-list__tabs-nav
+                            button(data-tab-target="#main-tab").active Запланировано 181 семинара
+                            button(data-tab-target="#second-tab") 5 выездных
+                            button(data-tab-target="#third-tab") 2 записи
+                            a(href="") Перейти в архив  
+
+                        //- Основной список семинаров
+                        .seminars-list__wrap
+
+                            #main-tab(data-tab-content="").seminars-list__tab.active
+
+                                mixin seminar
+                                    //- СЕМИНАР
+                                    .seminar-item
+                                        .seminar-item__header
+                                            .seminar-item__date 30 сентября
+                                            .seminar-item__day Пн
+                                            .seminar-item__watch-count.has-tooltip
+                                                .watch-count__text.max-round.sm-btn 399
+                                                .seminar-item__tooltip
+                                            .seminar-item__cats.has-tooltip
+                                                .cats__text.max-round.sm-btn 12 категорий
+                                                .seminar-item__tooltip
+                                            .has-tooltip    
+                                                .seminar-item__specs.max-round.sm-btn 6 специальностей
+                                                .seminar-item__tooltip
+                                            .seminar-item__tags
+                                                .nmo-tag
+                                                    .nmo-tag__body
+                                                        .nmo-tag__value +36 НМО
+                                                        .nmo-tag__state
+                                                    .nmo-tag__tooltip
+                                                        .nmo-tag__tooltip-caption
+                                                        p.nmo-tag__tooltip-text
+
+                                        .seminar-item__body
+                                            .seminar-item__title
+                                                a(href="") Правовые аспекты работы детского гинеколога с учетом всех нововведений. Самые распространенные                 
+                                            
+                                        .seminar-item__footer
+                                                .seminar-item__speakers.has-tooltip
+                                                    .speakers__text.max-round.sm-btn Семинар ведут 10 лекторов
+                                                    .seminar-item__tooltip
+                                                        .tooltip__heading Лекторы
+                                                        ul
+                                                            li Васильев Артосик Марутович
+                                                            li Афискир Допрат Асеркович
+                                                            li Жопин Артур Варкрафтович
+                                                            li Константинопольский Арманьяк Французский
+                                                            li Артур Оченьдлинноеимя Ещедлиннееотчество
+                                                            li Афискир Допрат Асеркович
+                                                            li Жопин Артур Варкрафтович
+                                                            li Константинопольский Арманьяк Французский
+                                                            li Артур Оченьдлинноеимя Ещедлиннееотчество
+                                                            li Афискир Допрат Асеркович
+                                                .seminar-item__cicle.has-tooltip    
+                                                    .cicle__text.max-round.sm-btn Часть цикла
+                                                    .seminar-item__tooltip
+
+                                        .seminar-item__right-col
+                                                .seminar-item__seminar-avatar
+                                                    img(src="../images/seminar-pic.png", alt="")
+                                                button().seminar-item__call-me-btn.btn.cta-btn Оставить заявку
+                                                        
+                                                    
+                                            
+                                +seminar
+                                +seminar
+                                +seminar
+                                +seminar
+                                +seminar
+
+
+                                button(class="seminar-list__load-more") Загрузить еще 10 семинаров
+
+                                .search-no-result
+                                    .search-no-result__icon
+                                    p Похоже, по вашему запросу ничего не найдено
+                                
+                                //- блок с возможными семинарами, которые искал юзер (догадка поиска)
+                                .guess-search-results
+                                    .guess-search-result__heading Возможно вы искали:
+                                    +seminar
+                                    +seminar
+
+
+                                .zaoch-item
+
+
+                            #second-tab(data-tab-content="").seminars-list__tab
+
+                            #third-tab(data-tab-content="").seminars-list__tab
+                                
+
+
+                            
+

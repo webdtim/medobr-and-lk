@@ -1,221 +1,3 @@
-$('#donthavepass').on('click', function() {
-  changeModalTitle('login-test', 'Получение пароля')
-  nextStepInModal($(this))
-})
-
-$('[data-target-modal-id]').on('click', function() {
-  const elem = $(this)
-  const idElem = elem.data('target-modal-id')
-  const form = elem.closest('form')
-
-  // nextStepInModal(elem)
-  
-  // отменяем отправку формы и самостоятельно отправляем запрос
-  // form.unbind('submit', formHandler)
-  // form.one('submit', formHandler)
-  form.unbind('submit')
-  form.one('submit', function(e) {
-    e.preventDefault();
-
-    const allReqFileds = form.find('input[required]')
-
-    // проверяем заполнение полей
-    switch (idElem) {
-      case 'mail-code':
-        // проверка email
-        if ( allRequiredIsFilled(allReqFileds) ) {
-        // if ( true) {
-          // fetch(`https://medobr.com/ajax/lk/sendcode.php?email=t.abdulaev.snta@gmail.com&debug=Y`)
-          // fetch(`https://medobr.com/ajax/lk/sendcode.php?email=${mail}&debug=Y`)
-          // тестовый промис
-          let promise = new Promise(function(resolve, reject) {
-            setTimeout(() => resolve({status: 'ok'}), 500);
-          })
-          promise
-            // .then(response => response.json())
-            .then(data => {
-              console.log(data)
-              if (data.status === 'ok') {
-                console.log('код подтверждения верен, мы выслали пароль')
-                nextStepInModal(elem);
-              }
-            })
-            .catch(err => console.error(err));
-        } else {
-          console.log('неверно заполнено поле')
-        }
-        break;
-
-      case 'mail--ur':
-        // проверка email
-        console.log('шаг с договором юр. лиц');
-        break;
-
-      case 'step5-change-pass':
-        console.log('4х значный код');
-        if ( allRequiredIsFilled(allReqFileds) ) {
-        // if (true) {
-          // sendRequest('https://medobr.com/ajax/lk/entercode.php', `code=${code1}${code2}${code3}${code4}`)
-          // sendRequest('https://medobr.com/ajax/lk/entercode.php', 'code=1408')
-          // тестовый промис
-          let promise = new Promise(function(resolve, reject) {
-            setTimeout(() => resolve({status: 'ok'}), 500);
-          })
-          promise
-            .then(response => {
-              console.log(response)
-              if (response.status === 'ok') {
-                console.log('код действителен')
-                nextStepInModal(elem);
-              }
-            })
-        } else {
-          console.log('неверно заполнено поле')
-        }
-        break;
-
-      case 'new-pass':
-        if ( passEqual(allReqFileds) ) {
-          console.log('отправляем новый пароль');
-          // sendRequest('https://medobr.com/ajax/lk/entercode.php', 'code=8314&setpasswd=Y&password=123456&a')
-          // тестовый промис
-          let promise = new Promise(function(resolve, reject) {
-            setTimeout(() => resolve({status: 'ok'}), 500);
-          })
-          promise
-            .then(response => {
-              console.log(response)
-              if (response.status === 'ok') {
-                alert('Новый пароль установлен!')
-                closeModal(elem)
-              }
-            })
-        } else {
-          alert('пароли не совпадают')
-        }
-        break;
-
-      default: 
-        nextStepInModal(elem);
-    }
-
-    function sendRequest(url, params) {
-      return fetch(`${url}?${params}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data)
-        return data
-      })
-      .catch(err => console.error(err));
-    }
-
-    return false;
-  })
-})
-
-function allRequiredIsFilled(fields) {
-  let countFields = fields.length
-  let countSucCheckedFields = 0
-  
-  fields.each(function() {
-    countSucCheckedFields += checkField($(this))
-  })
-
-  return countFields === countSucCheckedFields
-}
-
-function checkField(field) {
-  if (field.val()) {
-    console.log('поле верно заполнено')
-    return 1
-  } else {
-    return 0
-  }
-
-  // switch (field.attr('type')) {
-    
-  //   case 'email':
-  //     if (field.val()) {
-  //       console.log('email верный')
-  //       return 1
-  //     }
-  //     break;
-
-  //   case 'text':
-  //     break;
-
-  //   case 'tel':
-  //     break;
-
-  //   case 'number':
-  //     break;
-
-  //   default:
-  //     console.log('или')
-  //     return 0
-  // }
-}
-
-// проверка совпадения паролей
-function passEqual(inputs) {
-  if (allRequiredIsFilled(inputs)) {
-    return inputs[0].value === inputs[1].value
-  }
-  return false
-}
-
-function changeModalTitle(id, text) {
-  $(`#${id}`).find('.modal-block__head-title').text(text)
-}
-
-function nextStepInModal(elem) {
-  const idElem = elem.data('target-modal-id')
-  elem.closest('.modal-block__body').css('display', 'none')
-  $(`#${idElem}`).css('display', 'block')
-}
-
-// переход на новое поле при вводе проверочного кода
-$('.modal-block__code-wrap input').on('keyup', function() {
-  if ( $(this).val() ) {
-    $(this).closest('label').next().focus()
-  }
-})
-
-
-// загрузка файлов
-$('.custom-file-input').on('change',function(){
-  var fileName = $(this).val().replace(/^.*[\\\/]/, '');
-  $(this).closest('.custom-file').find('label.custom-file-label').text(fileName)
-})
-
-// *********
-// функции модала
-// close 
-$('.modal-block__head-close').on('click',function(){
-  closeModal($(this))
-})
-
-function closeModal(elem) {
-  elem.closest('.modal-block').hide()
-}
-
-// open modal 
-$('[data-open-modal-id]').on('click',function(){
-  openModal( $(this).attr('data-open-modal-id') )
-})
-
-function openModal(id) {
-  $(`${id}`).show()
-}
-
-// очистить модал
-function clearModal(id) {
-  $(`#${id}`).find('.modal-block__body').html() = ''
-}
-
-
-
-
 
 // модал с инфой
 let dataUser = {
@@ -336,3 +118,452 @@ function createInfoBlock(dataText, labelText, modifyClass) {
 
   return infoBLock
 }
+
+
+
+
+
+
+
+
+initSelects('select-custom')
+
+// пример: .select-program__dropdown-list 
+//           .select-program__item-wrap - доп. оболочка
+//             .select-program__item
+
+// событие выбора
+// elem.addEventListener('customselect', e => {console.log(e.detail)})
+function initSelect(elemSelect, selectClass) {
+  new CustomSelect({
+    elem: elemSelect,
+    selectClass: selectClass
+  })
+}
+
+function initSelects(nameClassForSelect) {
+  const selects = document.querySelectorAll(`.${nameClassForSelect}`)
+      
+  for (let select of selects) {
+    initSelect(select, nameClassForSelect)
+  }
+}
+
+function CustomSelect({elem, selectClass}) {
+
+  elem.addEventListener('click', function(event) {
+    const targetSelectItem = event.target.closest(`.${selectClass}__item`)
+
+
+    // модификация, в других проектах не использовать
+    if(elem.classList.contains('no-open')) {
+      const prevStepElem = elem.previousElementSibling
+      validateSelect(prevStepElem)
+      return
+    }
+
+    if (event.target.closest('input')) {
+      // предотвратить двойной клик из-за лейбла
+      event.stopPropagation();
+    } else if (event.target.closest(`.${selectClass}__top`)) {
+      toggle();
+    } else if (targetSelectItem) {
+      const checkedValue = targetSelectItem.querySelector('input').value
+      const checkedTitle = targetSelectItem.querySelector('input').nextElementSibling.textContent
+      selectedSelecet(checkedTitle, checkedValue)
+      closeSelect();
+
+      // зависимость селектов друг от друга
+      if (elem.dataset.allowOpenNext) {
+        const nextElem = elem.nextElementSibling
+
+        unSelectedSelect(nextElem)
+
+        if (elem.dataset.allowOpenNext === 'false') {
+          nextElem.classList.remove('no-open')
+          elem.dataset.allowOpenNext = 'true'
+        }
+      }
+    }
+  })
+
+  const searchInput = elem.querySelector('input.select-custom__search')
+  searchInput.addEventListener('input', e => {
+    searchInDropdownList(e.target)
+  })
+
+  let isOpen = false;
+  // ------ обработчики ------
+
+  // закрыть селект, если клик вне его
+  function clickOutSelect(event) {
+    if (!elem.contains(event.target)) closeSelect();
+  }
+
+  function setValue(title, value) {
+    elem.dataset.selectedVal = value
+    elem.querySelector(`.${selectClass}__head-selected`).textContent = title;
+
+    const widgetEvent = new CustomEvent('customselect', {
+      bubbles: true,
+      detail: {
+        title: title,
+        value: value
+      }
+    });
+
+    elem.dispatchEvent(widgetEvent);
+  }
+  // elem.addEventListener('customselect', e => {console.log(e.detail)})
+
+  function openSelect() {
+    removeClass(elem, `error`);
+    addClass(elem, 'open');
+    document.addEventListener('click', clickOutSelect);
+    isOpen = true;
+  }
+
+  function closeSelect() {
+    removeClass(elem, `open`);
+    validateSelect(elem)
+    document.removeEventListener('click', clickOutSelect);
+    isOpen = false;
+  }
+
+  function toggle() {
+    if (isOpen) closeSelect()
+    else openSelect();
+  }
+
+  function selectedSelecet(checkedTitle, checkedValue) {
+    addClass(elem, 'selected');
+    setValue(checkedTitle, checkedValue);
+  }
+
+  function unSelectedSelect(elem) {
+    removeClass(elem, 'selected');
+    elem.dataset.selectedVal = ''
+    elem.querySelector(`.${selectClass}__head-selected`).textContent = ''
+  }
+
+  function searchInDropdownList(inpt) {
+    const searchItems = elem.querySelectorAll('.select-custom__item')
+    
+    searchItems.forEach(item => {
+      const textItem = item.textContent.toLowerCase()
+      if (textItem.includes(inpt.value.toLowerCase())) {
+        item.classList.remove('hidden')
+      } else {
+        item.classList.add('hidden')
+      }
+    })
+  }
+}
+
+function addClass(elem, className) {
+  elem.classList.add(className)
+}
+
+function removeClass(elem, className) {
+  if (elem) elem.classList.remove(className)
+}
+  
+function validateSelect(elem) {
+  const selectedValue = elem.dataset.selectedVal
+
+  if (!selectedValue) {
+    addClass(elem, 'error');
+    return false
+  }
+  return true
+}
+// ------ End Custom Select ------------
+
+
+// раскрытие элементов
+$('body').on('click', '.complete .btn', function(e) {
+  e.target.closest('.complete').classList.toggle('open')
+})
+
+// // модалы
+// $('body').on('click', '[data-modal=true]', function (e) {
+//   e.preventDefault();
+//   let id = $(this).attr('data-modal-id');
+//   //console.log('test');
+//   $(id).toggle();
+// });
+
+// $('[data-modal-close]').on('click', function() {
+//   if ($(this).attr('data-modal-close') === 'true') {
+//     $(this).closest('.modal-block').toggle()
+//   }
+// })
+
+// добавление специальности
+function createSpec(specs) {
+
+  let arrSpecs = ''
+
+  for(let i = 0; i < specs.length; i++) {
+    arrSpecs += (`
+    <div class="select-custom__item">
+      <label class="radio radio--mini">
+        <input type="radio" name="format" value="${specs[i].value}"><span class="span">${specs[i].title}</span>
+      </label>
+    </div>`)
+  }
+
+  const spec = `<div class="modal-block__inputs-wrap">
+    <label class="modal-block__label standart-label"><span>Специальность</span>
+      <div class="select-custom req" data-selected-val="" data-allow-open-next="false">
+        <div class="select-custom__top">
+          <label class="select-custom__preview"><span class="select-custom__desc">Специальность</span>
+            <input class="select-custom__search" placeholder="Выберите тип услуги">
+            <div class="select-custom__head-selected"></div>
+          </label>
+        </div>
+        <div class="select-custom__dropdown">
+          <div class="select-custom__dropdown-body">`
+          + arrSpecs +
+          `</div>
+        </div>
+        <div class="select-custom__err-text">Пожалуйста, выберите специальность!</div>
+      </div>
+    </label>
+    <label class="modal-block__label standart-label">
+      <span>Дата окончания <br> сертификата</span>
+      <input class="modal-block__body-input" placeholder="12.03.2025">
+    </label>
+    <label class="modal-block__label standart-label">
+      <span>Текущее кол-во <br> баллов НМО</span>
+      <input class="modal-block__body-input" placeholder="123">
+    </label>
+  </div>`
+
+  return spec
+}
+
+function initSpec(elemSelect) {
+  initSelect(elemSelect, 'select-custom')
+}
+
+$('body').on('click','#add-spec', function(e) {
+  $(this).before(createSpec([{title: 'спек 1', value: 'spec1'}, {title: 'спек 2', value: 'spec2'}]))
+  
+  const selectElem = e.target.previousElementSibling.querySelector('.select-custom')
+  initSpec(selectElem)
+})
+
+// choose-seminar
+$('body').on('click','#btn-add-seminar', function() {
+  console.log($(this))
+  $('.choose-seminar').addClass('open')
+  $(this).hide()
+})
+
+$('body').on('click', '.choose-seminar__close', function() {
+  $(this).parent().removeClass('open')
+  $('#btn-add-seminar').show()
+})
+
+// const arrAllow = [false, false]
+let allowPay = false
+
+$('body').on('change', '#agree-off', function() {
+  if ($(this).is(':checked')) allowPay = true
+  else allowPay = false
+
+  if(allowPay) {
+    $('#go-to-pay').removeAttr('disabled')
+  } else {
+    $('#go-to-pay').attr('disabled','disabled')
+  }
+})
+
+// $('[data-agree-offer]').on('click', function() {
+//   const indexElem = $(this).attr('data-agree-offer')
+//   arrAllow[indexElem] = true
+//   allowPay = true
+  
+//   for (let i = 0; i < arrAllow.length; i++) {
+//     if(arrAllow[i] !== true) allowPay = false
+//   }
+
+//   if(allowPay) {
+//     $('#go-to-pay').removeAttr('disabled')
+//   }
+// })
+
+
+
+
+
+function validateCustomInput(inpt) {
+  const customInput = inpt.closest('.custom-input')
+  const reg = inpt.dataset.typeInpt
+
+  if (!inpt.value) {
+    customInput.classList.add('error')
+    return false
+  } else {
+    if(reg) {
+      // switch 
+    } else {
+      customInput.classList.remove('error')
+      return true
+    }
+  }
+}
+
+$('body').on('click', '.custom-input', function(e) {
+  const customInput = $(this)
+  customInput.addClass('open')
+})
+
+$('body').on('focus', 'input.custom-input__input', function(e) {
+  const customInput = $(this).closest('.custom-input')
+  customInput.removeClass('error')
+})
+
+$('body').on('blur', 'input.custom-input__input', function(e) {
+  const customInput = $(this).closest('.custom-input')
+
+  validateCustomInput(e.target)
+  if (!e.target.value) customInput.removeClass('open')
+})
+
+$('body').on('keyup', 'input', function(e) {
+  const inpt = e.target
+  const type = inpt.dataset.type
+  if(e.key === 'Backspace') return
+  
+  let tempValueNumber = $(this).val().replace(/[^+\d]/g, '')
+  let formatedValue = ''
+  // создаем маску
+  switch(type) {
+    case 'number':
+      $(this).val($(this).val().replace(/[^+\d]/g, ''))
+      break;
+    case 'snils':
+      
+      for (let i = 0; i < tempValueNumber.length; i++) {
+        if (i === 2) {
+          formatedValue += tempValueNumber[i] + '-'
+        } else if (i === 5) {
+          formatedValue += tempValueNumber[i] + '-'
+        } else if (i === 8) {
+          formatedValue += tempValueNumber[i] + ' '
+        } else if (i === 11) {
+        } else {
+          formatedValue += tempValueNumber[i]
+        }
+      }
+      $(this).val(formatedValue)
+      break;
+    case 'ser-pass':
+
+      for (let i = 0; i < tempValueNumber.length; i++) {
+        if (i === 1) {
+          formatedValue += tempValueNumber[i] + ' '
+        } else if (i === 4) {
+        } else {
+          formatedValue += tempValueNumber[i]
+        }
+      }
+      $(this).val(formatedValue)
+      break;
+    case 'num-pass':
+      
+      for (let i = 0; i < tempValueNumber.length; i++) {
+        if (i === 6) {
+        } else {
+          formatedValue += tempValueNumber[i]
+        }
+      }
+      $(this).val(formatedValue)
+      break;
+    case 'code-pass':
+
+      for (let i = 0; i < tempValueNumber.length; i++) {
+        if (i === 2) {
+          formatedValue += tempValueNumber[i] + '-'
+        } else if (i === 6) {
+        } else {
+          formatedValue += tempValueNumber[i]
+        }
+      }
+      $(this).val(formatedValue)
+      break;
+    case 'date':
+
+      for (let i = 0; i < tempValueNumber.length; i++) {
+        if (i === 1) {
+          formatedValue += tempValueNumber[i] + '.'
+        } else if (i === 3) {
+          formatedValue += tempValueNumber[i] + '.'
+        } else if (i === 8) {
+        } else {
+          formatedValue += tempValueNumber[i]
+        }
+      }
+      $(this).val(formatedValue)
+      break;
+    case 'index':
+
+      for (let i = 0; i < tempValueNumber.length; i++) {
+        if (i === 2) {
+          formatedValue += tempValueNumber[i] + ' '
+        } else if (i === 6) {
+        } else {
+          formatedValue += tempValueNumber[i]
+        }
+      }
+      $(this).val(formatedValue)
+      break;
+    case 'nmo':
+
+      for (let i = 0; i < tempValueNumber.length; i++) {
+        if (i === 4) {
+        } else {
+          formatedValue += tempValueNumber[i]
+        }
+      }
+      $(this).val(formatedValue)
+      break;
+    default:
+      return
+  }
+})
+
+function validateInput(inpt) {
+  if (!inpt.value) {
+    inpt.classList.add('error')
+    return false
+  } else {
+    inpt.classList.remove('error')
+    return true
+  }
+}
+
+$('body').on('blur', 'input[required]', function(e) {
+  validateInput(e.target)
+})
+
+$('body').on('click', '#go-to-pay', function() {
+  const form = $(this).closest('.choose-seminar__form')
+  const reqSelects = form.find('.select-custom.req')
+  const reqInputs = form.find('input[required]')
+  const reqCustomInputs = form.find('.custom-input.req input')
+  
+  for (let i = 0; i < reqSelects.length; i++) {
+    validateSelect(reqSelects[i])
+  }
+
+  for (let i = 0; i < reqInputs.length; i++) {
+    validateInput(reqInputs[i])
+  }
+
+  for (let i = 0; i < reqCustomInputs.length; i++) {
+    validateCustomInput(reqCustomInputs[i])
+  }
+})

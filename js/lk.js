@@ -453,7 +453,7 @@ $('body').on('keyup', 'input', function(e) {
           formatedValue += tempValueNumber[i] + '-'
         } else if (i === 8) {
           formatedValue += tempValueNumber[i] + ' '
-        } else if (i === 11) {
+        } else if (i >= 11) {
         } else {
           formatedValue += tempValueNumber[i]
         }
@@ -465,7 +465,7 @@ $('body').on('keyup', 'input', function(e) {
       for (let i = 0; i < tempValueNumber.length; i++) {
         if (i === 1) {
           formatedValue += tempValueNumber[i] + ' '
-        } else if (i === 4) {
+        } else if (i >= 4) {
         } else {
           formatedValue += tempValueNumber[i]
         }
@@ -475,7 +475,7 @@ $('body').on('keyup', 'input', function(e) {
     case 'num-pass':
       
       for (let i = 0; i < tempValueNumber.length; i++) {
-        if (i === 6) {
+        if (i >= 6) {
         } else {
           formatedValue += tempValueNumber[i]
         }
@@ -487,7 +487,7 @@ $('body').on('keyup', 'input', function(e) {
       for (let i = 0; i < tempValueNumber.length; i++) {
         if (i === 2) {
           formatedValue += tempValueNumber[i] + '-'
-        } else if (i === 6) {
+        } else if (i >= 6) {
         } else {
           formatedValue += tempValueNumber[i]
         }
@@ -501,7 +501,7 @@ $('body').on('keyup', 'input', function(e) {
           formatedValue += tempValueNumber[i] + '.'
         } else if (i === 3) {
           formatedValue += tempValueNumber[i] + '.'
-        } else if (i === 8) {
+        } else if (i >= 8) {
         } else {
           formatedValue += tempValueNumber[i]
         }
@@ -513,7 +513,7 @@ $('body').on('keyup', 'input', function(e) {
       for (let i = 0; i < tempValueNumber.length; i++) {
         if (i === 2) {
           formatedValue += tempValueNumber[i] + ' '
-        } else if (i === 6) {
+        } else if (i >= 6) {
         } else {
           formatedValue += tempValueNumber[i]
         }
@@ -523,7 +523,7 @@ $('body').on('keyup', 'input', function(e) {
     case 'nmo':
 
       for (let i = 0; i < tempValueNumber.length; i++) {
-        if (i === 4) {
+        if (i >= 4) {
         } else {
           formatedValue += tempValueNumber[i]
         }

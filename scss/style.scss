@@ -1144,6 +1144,11 @@
     color: #5BB6CA;
     font-size: 14px;
     line-height: 16px;
+    cursor: pointer;
+
+    &:hover {
+      color: #4393a5;
+    }
   }
 
   &__text {
@@ -2189,7 +2194,7 @@
   gap: 20px;
 
   &__img {
-    width: 790px;
+    width: 700px;
     max-width: 790px;
     flex-shrink: 0;
 
@@ -2214,7 +2219,6 @@
 
   &__text {
     margin-top: 13px;
-    margin-bottom: 20px;
     font-weight: 400;
     font-size: 14px;
     line-height: 22px;
@@ -2230,6 +2234,11 @@
   &__a {
     text-decoration-line: underline;
     color: #54BAB4;
+  }
+
+  .btn {
+    width: 320px;
+    margin-top: 15px;
   }
 }
 

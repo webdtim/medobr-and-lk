@@ -545,25 +545,266 @@ function validateInput(inpt) {
   }
 }
 
+function validateLoadFile(inpt) {
+  const loadFile = inpt.closest('.custom-file')
+
+  if (!inpt.value) {
+    loadFile.classList.add('error')
+    return false
+  } else {
+    loadFile.classList.remove('error')
+    return true
+  }
+}
+
+function compareInputsMark(collections) {
+  let haveValue = false
+
+  if (collections.length < 2) return
+
+  for (let i = 0; i < collections.length; i++) {
+    const inpt = collections[i]
+    if(inpt.value) {
+      haveValue = true
+    }
+  }
+
+  for (let i = 0; i < collections.length; i++) {
+    const inpt = collections[i]
+    if (haveValue) {
+      const field = inpt.closest('.req')
+      console.log('Уже есть значения')
+      field.classList.remove('req','error')
+    } else {
+      console.log('нет значений, Добавляем обязательность')
+      inpt.parentElement.classList.add('req')
+    }
+  }
+
+  return haveValue
+}
+
 $('body').on('blur', 'input[required]', function(e) {
   validateInput(e.target)
 })
 
+// // удалить
+// $('.choose-seminar__form').on('submit', function(e) {
+//   e.preventDefault()
+//   if (validateAllFormFields($(this))) {
+//     $(this).submit()
+//   }
+// })
+
 $('body').on('click', '#go-to-pay', function() {
   const form = $(this).closest('.choose-seminar__form')
+  
+  const marksElse = form.find('[data-mark-else]')
+  compareInputsMark(marksElse)
+
+  validateAllFormFields(form)
+})
+
+function validateAllFormFields(form) {
   const reqSelects = form.find('.select-custom.req')
   const reqInputs = form.find('input[required]')
   const reqCustomInputs = form.find('.custom-input.req input')
-  
+  const reqInptsFiles = form.find('.custom-file.req input')
+  let isSucValidate = true
+
+  // валидация
   for (let i = 0; i < reqSelects.length; i++) {
-    validateSelect(reqSelects[i])
+    if(!validateSelect(reqSelects[i])) isSucValidate = false
   }
 
   for (let i = 0; i < reqInputs.length; i++) {
-    validateInput(reqInputs[i])
+    if(!validateInput(reqInputs[i])) isSucValidate = false
   }
 
   for (let i = 0; i < reqCustomInputs.length; i++) {
-    validateCustomInput(reqCustomInputs[i])
+    if(!validateCustomInput(reqCustomInputs[i])) isSucValidate = false
   }
+
+  for (let i = 0; i < reqInptsFiles.length; i++) {
+    if(!validateLoadFile(reqInptsFiles[i])) isSucValidate = false
+  }
+
+  return isSucValidate
+}
+
+
+
+$('body').on('click', '[data-send-req]', function(e) {
+  let isGroup
+  const elem = e.target
+  if (elem.classList.contains('nav-link')) {
+    isGroup = elem.closest('ul.nav-tabs').querySelector('a.nav-link.active').dataset.sendReq
+  } else {
+    isGroup = elem.dataset.sendReq
+    // переключаем таб
+    $(`#lk-info-change a[href="#${isGroup}"]`).closest('li.nav-item').next().children().tab('show')
+  }
+
+  const tab = $('#' + isGroup)
+
+  switch (isGroup) {
+    case 'contacts':
+      console.log('send contacts')
+
+      // $.ajax({
+      //   type: 'POST',
+      //   url: $(this).attr('action'),
+      //   data: new FormData(this),
+      //   contentType: false,
+      //   processData:false,
+      //   //xhrFields: { responseType: 'arraybuffer' },
+      //   success: function(ret,status,xhr){
+      //     $('.create_deal_submit').removeAttr('disabled').html('Перейти к оплате');
+      //     ret = JSON.parse(ret);
+      //     if(ret.error) {
+      //       alert(ret.error);																				
+      //     } else {
+      //       if(ret.link.indexOf('>>')!=-1&&ret.link.indexOf('http')!=-1) {
+      //         $('.create_deal_submit').hide();
+      //         location.href = ret.link.split('>>').join(''); //goto cashdesk
+      //         } 
+      //       else {alert('Ошибка создания платежа!'); console.log(ret.link);}
+      //     }
+      //   }
+      // });
+      const contactsBody = {
+        last_name: tab.find('input[name="last_name"]').val(),
+        name: tab.find('input[name="name"]').val(),
+        second_name: tab.find('input[name="second_name"]').val(),
+        birthdate: tab.find('input[name="birthdate"]').val(),
+        snils: tab.find('input[name="snils"]').val()
+      }
+
+      // fetch('https://medobr.com/ajax/lk/setparams.php', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json;charset=utf-8'
+      //   },
+      //   body: JSON.stringify(contactsBody)
+      // })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     console.log(data)
+      //     if (data.status !== 'ok') {
+      //       alert('что-то пошло не так. Не удалось обновить информацию')
+      //     }
+      //   })
+      //   .catch(err => console.error(err));
+
+      let strContacts = ''
+
+      for (let key in contactsBody) {
+        strContacts += key + '=' + contactsBody[key] + '&'
+      }
+
+      fetch(`https://medobr.com/ajax/lk/setparams.php?${strContacts}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          if (data.status !== 'ok') {
+            alert('что-то пошло не так. Не удалось обновить информацию')
+          }
+        })
+        .catch(err => console.error(err));
+      break;
+
+    case 'specs':
+      const specsBody = []
+      const specsElems = document.querySelectorAll('#specs .spec_block')
+      
+      for (let spec of specsElems) {
+        const inptSpec = spec.querySelector('input[type="radio"]:checked')
+        if (!inptSpec) continue
+        const id = inptSpec.value
+        const date = spec.querySelector('input[data-type="date"]').value
+        const nmo = spec.querySelector('input[type="number"]').value
+        specsBody.push({id, date, nmo})
+      }
+      
+      if (!specsBody.length) return
+      console.log('send specs')
+
+      let strSpecs = ''
+
+      specsBody.forEach((item, i) => {
+        for (let key in item) {
+          strSpecs += `specs[${i}][` + key + ']=' + item[key] + '&'
+        }
+      })
+
+      console.log(strSpecs)
+
+      fetch(`https://medobr.com/ajax/lk/setparams.php?${strSpecs}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          if (data.status !== 'ok') {
+            alert('что-то пошло не так. Не удалось обновить информацию  ' + data.error)
+          }
+        })
+        .catch(err => console.error(err));
+      // // отправка JSON'ом
+      // fetch('https://medobr.com/ajax/lk/setparams.php', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json;charset=utf-8'
+      //   },
+      //   body: JSON.stringify(specsBody)
+      // })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     console.log(data)
+      //     if (data.status !== 'ok') {
+      //       alert('что-то пошло не так. Не удалось обновить информацию')
+      //     }
+      //   })
+      //   .catch(err => console.error(err));
+      break;
+
+    case 'adress':
+      console.log('send adress')
+      // fetch(`https://medobr.com/ajax/lk/setparams.php?`)
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     console.log(data)
+      //     if (data.status === 'ok') {
+
+      //     } else {
+      //       alert('что-то пошло не так. Не удалось обновить информацию')
+      //     }
+      //   })
+      //   .catch(err => console.error(err));
+      break;
+
+    case 'docs':
+      const formData = new FormData();
+      const filesFields = tab.find('input[type="file"]');
+
+      for (let field of filesFields) {
+        if(!field.files[0]) continue
+        formData.append(field.name, field.files[0]);
+      }
+
+      fetch(`https://medobr.com/ajax/lk/setparams.php`, {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          if (data.status !== 'ok') {
+            alert('что-то пошло не так. Не удалось обновить информацию')
+          }
+        })
+        .catch(err => console.error(err));
+      break;
+  }
+
 })
+
+

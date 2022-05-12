@@ -7,16 +7,19 @@ html(lang="ru")
     title Project
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/croppie.css" />
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/app.min.css">
   body.body
+    a.btn(href="#" data-modal="true" data-modal-id="#login" style="background-color:#efefef;") ВХОД
     .container.lk
-      div(style="width:100%")
+      div(style="width:65%")
         h1.big-text Ваш личный кабинет
         .main-info
-          .main-info__img 
-            img(src="", alt="")
+          //- .main-info__img--empty для пустых элементов
+          .main-info__img
+            img(src="img/man.png", alt="man")
           .main-info__body
             .main-info__top
               .main-info__name 
@@ -29,7 +32,7 @@ html(lang="ru")
               .bar__line 
                 .bar__fill
               .bar__desc Уровень заполненности личного кабинета
-      .your-manager 
+      .your-manager(style="display:none;")
         .light-text Ваш персональный менеджер
         .light-text 
           b Никишин Антон Валерьевич
@@ -104,7 +107,7 @@ html(lang="ru")
                 a.complete__text(href="#" data-modal="true" data-modal-id="#lk-sert") Сертификат повышения квалификации
           .block-btn
             button#btn-add-seminar.btn.btn--green Приобрести услугу
-          .choose-seminar
+          .choose-seminar.open
             form.choose-seminar__form(name='form-data')
               .choose-seminar__title Выбор услуги
               .choose-seminar__selects
@@ -148,10 +151,10 @@ html(lang="ru")
                       .select-custom__item
                         label.radio.radio--grid
                           input(type='radio' name='study-format' value="vmp")
-                          .radio__grid 
+                          .radio__grid.radio__grid-sf
                             .radio__text Актуальные вопросы в специальности акушерское дело - повышение квалификации
+                            .radio__price.radio__text Очно-заочно
                             .radio__price.radio__text 11 900р
-                            .radio__price.radio__text 220 ч.
                       .select-custom__group Средний медицинский песонал
                       .select-custom__item
                         label.radio.radio--grid
@@ -187,22 +190,26 @@ html(lang="ru")
                     label.custom-input__label
                       span.custom-input__desc Фамилия
                       input.custom-input__input(placeholder="Иванов" type="text")
-                    .custom-input__err-text Введите фаимилию
+                    .custom-input__err-text Введите фамилию
                   .custom-input.req
                     label.custom-input__label
                       span.custom-input__desc Имя
-                      input.custom-input__input(placeholder="Иванов" type="text")
+                      input.custom-input__input(placeholder="Иван" type="text")
                     .custom-input__err-text Введите Имя
                   .custom-input.req
                     label.custom-input__label
                       span.custom-input__desc Отчество
-                      input.custom-input__input(placeholder="Иванов" type="text")
+                      input.custom-input__input(placeholder="Иванович" type="text")
                     .custom-input__err-text Введите Отчество
-                  label.absolute-text
+                  .custom-input.req
+                    label.custom-input__label
+                      span.custom-input__desc Дата рождения
+                      input.custom-input__input(placeholder="дд.мм.гггг" data-type="date")
+                    .custom-input__err-text Неверная дата
+                  //- label.absolute-text
                     span.choose-seminar__title СНИЛС (номер)
                     input.inpt(placeholder="000-000-000 00" data-type="snils" type="text" required="true")
-                .choose-seminar__title(style="margin-top:30px;") Паспортные данные
-                .choose-seminar__inner
+                //- .choose-seminar__inner
                   .custom-input.req(style="width:85px;")
                     label.custom-input__label
                       span.custom-input__desc Серия
@@ -223,35 +230,47 @@ html(lang="ru")
                       span.custom-input__desc Код подразделения
                       input.custom-input__input(placeholder="000-000" data-type="code-pass")
                     .custom-input__err-text Неверные данные
-                .choose-seminar__inner
+                //- .choose-seminar__inner
                   input.inpt(placeholder="Кем выдан" required="true" type="text" style="width:800px;")
                 .choose-seminar__inner
+                  .custom-input.req(style="width:160px;")
+                    label.custom-input__label
+                      span.custom-input__desc № СНИЛС
+                      input.custom-input__input(placeholder="000-000-000 00" data-type="snils" data-mark-else="snils" type="text")
+                    .custom-input__err-text Неверные данные
+                  span(style="margin-top:10px;") или
+                  .choose-seminar__label(style="width:200px;")
+                    .custom-file.custom-file--upload.req
+                      input.custom-file-input#exampleInputFile(type="file" data-mark-else="snils" aria-describedby="fileHelp")
+                      label.custom-file-label(for="exampleInputFile") Скан СНИЛС
+                    //- .custom-file.custom-file--upload.custom-file--loaded.disabled
+                      .custom-file-label Скан СНИЛС
                   .choose-seminar__label
-                    .custom-file.custom-file--upload
-                      input.custom-file-input#exampleInputFile(type="file" required="true" aria-describedby="fileHelp")
-                      label.custom-file-label(for="exampleInputFile") Скан первой страницы паспорта
-                    //- span Согласие с офертой о предоставлении услуг
-                    //- button.btn.btn--white.btn--black-border(data-modal="true" data-modal-id="#police_modal") Прочитать и согласиться
+                    .custom-file.custom-file--upload.req
+                      input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                      label.custom-file-label(for="exampleInputFile") 1-ая страница  паспорта
                   .choose-seminar__label
-                    .custom-file.custom-file--upload
-                      input.custom-file-input#exampleInputFile(type="file" required="true" aria-describedby="fileHelp")
-                      label.custom-file-label(for="exampleInputFile") Скан второй страницы паспорта
+                    .custom-file.custom-file--upload.req
+                      input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                      label.custom-file-label(for="exampleInputFile") Скан документа об образовании
                     //- span Согласие с политикой конфиденциальности
                     //- button.btn.btn--white.btn--black-border(data-modal="true" data-modal-id="#police_modal_2") Прочитать и согласиться
               .choose-seminar__bottom 
                 .choose-seminar__policy
                   label.checkbox
-                    input#agree-off(type="checkbox" required="true")
+                    input#agree-off(type="checkbox" required="true" checked="true")
                     span
                   P.choose-seminar__policy-text Оплачивая обучение - Вы подтверждаете согласие с <a href="#" data-modal="true" data-modal-id="#police_modal_2">офертой</a> и <a href="#" data-modal="true" data-modal-id="#police_modal">политикой обработки данных</a>
-                button#go-to-pay.btn.btn--green(disabled="disabled") Перейти к оплате
+                .choose-seminar__pay
+                  button#go-to-pay.btn.btn--green() Перейти к оплате
+                  a.choose-seminar__a(href="#" data-modal="true" data-modal-id="#suc-check") Выставить счет
             .choose-seminar__close X
         .tab-pane#your-info-body(role="tabpanel" aria-labelledby="your-info")
           .info-lk
             .info-lk__inner
               .info-lk__text Вы еще не заполнили информацию о себе...
               button.btn.btn--green(data-modal="true" data-modal-id="#lk-info-change") Заполнить
-          .info-lk
+          //- .info-lk
             .info-lk__inner
               .info-lk__block
                 .info-lk__label Место жительства
@@ -278,6 +297,7 @@ html(lang="ru")
               .info-lk__block
                 .info-lk__label Получатель документов
                 .info-lk__text Смирнов Василий Евгеньевич
+            button.btn.btn--white.btn--black-border(data-modal="true" data-modal-id="#lk-info-change" style="margin-top:25px;") Редактировать
           .separator
             h2.separator__h2 Ваши специальности
             .separator__line
@@ -300,19 +320,20 @@ html(lang="ru")
                 b 21.03.25
               .light-text Имеется баллов НМО: 
                 b 144
+          button.btn.btn--white.btn--black-border(data-modal="true" data-modal-id="#lk-info-change" style="margin-top:25px;") Редактировать
           .separator
             h2.separator__h2 Ваши документы
             .separator__line
           .loaded
             .loaded__block
-              .loaded__label Паспорт
-              .loaded__text DCIM-asda123123.jpg
+              .custom-file.custom-file--upload.custom-file--loaded.disabled
+                .custom-file-label Паспорт
             .loaded__block
-              .loaded__label Диплом основной
-              .loaded__text DCasda123IM-asda123123.jpg
+              .custom-file.custom-file--upload.custom-file--loaded.disabled
+                .custom-file-label Диплом основной
             .loaded__block
-              .loaded__label СНИЛС
-              .loaded__text DCIM-asda123123.jpg
+              .custom-file.custom-file--upload.custom-file--loaded.disabled
+                .custom-file-label СНИЛС
             .loaded__block
               .loaded__label Свидетельство о заключение брака
               .loaded__text DCIM-asda123123.jpg
@@ -340,136 +361,134 @@ html(lang="ru")
           .modal-block__body
             ul.nav.nav-tabs
               li.nav-item
-                a.nav-link.active(data-toggle="tab" href="#contacts") Контактные данные
+                a.nav-link.active(data-toggle="tab" href="#contacts" data-send-req="contacts") Контактные данные
               li.nav-item
-                a.nav-link(data-toggle="tab" href="#yourspec") Ваша специальность
+                a.nav-link(data-toggle="tab" href="#specs" data-send-req="specs") Ваша специальность
               li.nav-item
-                a.nav-link(data-toggle="tab" href="#adress") Адрес отправки <br> документов
+                a.nav-link(data-toggle="tab" href="#adress" data-send-req="adress") Адрес отправки <br> документов
               li.nav-item
-                a.nav-link(data-toggle="tab" href="#yourdocuments") Ваши документы
+                a.nav-link(data-toggle="tab" href="#docs" data-send-req="docs") Ваши документы
             .tab-content
               .tab-pane.fade.show.active#contacts
-                form
-                  .modal-block__p-and-border
-                    .modal-block__inputs-wrap
-                      label.modal-block__label.standart-label
-                        span Фамилия
-                        input.modal-block__body-input(placeholder="Иванов")
-                      label.modal-block__label.standart-label
-                        span Имя
-                        input.modal-block__body-input(placeholder="Иван")
-                      label.modal-block__label.standart-label
-                        span Отчество
-                        input.modal-block__body-input(placeholder="Иванович")
-                    .modal-block__inputs-wrap
-                      label.modal-block__label.standart-label
-                        span Ваш e-mail
-                        input.modal-block__body-input(type="text" placeholder="Email" required)
-                      label.modal-block__label.standart-label
-                        span Ваш телефон
-                        input.modal-block__body-input(type="tel" placeholder="+7 (999) 999-99-99" required)
-                  button.btn.btn-block.modal-block__body-btn Продолжить
-              .tab-pane.fade#yourspec
-                form
-                  .modal-block__p-and-border
-                    .modal-block__inputs-wrap
-                      label.modal-block__label.standart-label
-                        span Специальность
-                        .select-custom.req(data-selected-val="" data-allow-open-next="false")
-                          .select-custom__top
-                            label.select-custom__preview
-                              span.select-custom__desc Специальность
-                              input.select-custom__search(placeholder="Выберите тип услуги")
-                              .select-custom__head-selected
-                          .select-custom__dropdown
-                            .select-custom__dropdown-body
-                              .select-custom__item
-                                label.radio.radio--mini
-                                  input(type='radio' name='format' value="vmp")
-                                  span.span Специальность 1
-                              .select-custom__item
-                                label.radio.radio--mini
-                                  input(type='radio' name='format' value="smp")
-                                  span.span Специальность 2
-                              .select-custom__item
-                                label.radio.radio--mini
-                                  input(type='radio' name='format' value="smp")
-                                  span.span Специальность 3
-                          .select-custom__err-text Пожалуйста, выберите специальность!
-                      label.modal-block__label.standart-label
-                        span Дата окончания <br> сертификата
-                        input.modal-block__body-input(placeholder="12.03.2025" data-type='date')
-                      label.modal-block__label.standart-label
-                        span Текущее кол-во <br> баллов НМО
-                        input.modal-block__body-input(placeholder="000" data-type="nmo")
-                    #add-spec.btn.btn--white.btn--black-border(style="margin-top: 20px;") + Добавить специальность
-                  button.btn.btn-block.modal-block__body-btn Продолжить
+                .modal-block__p-and-border
+                  .modal-block__inputs-wrap
+                    label.modal-block__label.standart-label
+                      span Фамилия
+                      input.modal-block__body-input(placeholder="Иванов")
+                    label.modal-block__label.standart-label
+                      span Имя
+                      input.modal-block__body-input(placeholder="Иван")
+                    label.modal-block__label.standart-label
+                      span Отчество
+                      input.modal-block__body-input(placeholder="Иванович")
+                  .modal-block__inputs-wrap
+                    label.modal-block__label.standart-label
+                      span Ваш e-mail
+                      input.modal-block__body-input(type="text" placeholder="Email")
+                    label.modal-block__label.standart-label
+                      span Ваш телефон
+                      input.modal-block__body-input(type="tel" placeholder="+7 (999) 999-99-99")
+                button.btn.btn-block.modal-block__body-btn(data-send-req="contacts") Продолжить
+              .tab-pane.fade#specs
+                .modal-block__p-and-border
+                  .modal-block__inputs-wrap
+                    label.modal-block__label.standart-label
+                      span Специальность
+                      .select-custom.req(data-selected-val="" data-allow-open-next="false")
+                        .select-custom__top
+                          label.select-custom__preview
+                            span.select-custom__desc Специальность
+                            input.select-custom__search(placeholder="Выберите тип услуги")
+                            .select-custom__head-selected
+                        .select-custom__dropdown
+                          .select-custom__dropdown-body
+                            .select-custom__item
+                              label.radio.radio--mini
+                                input(type='radio' name='format' value="vmp")
+                                span.span Специальность 1
+                            .select-custom__item
+                              label.radio.radio--mini
+                                input(type='radio' name='format' value="smp")
+                                span.span Специальность 2
+                            .select-custom__item
+                              label.radio.radio--mini
+                                input(type='radio' name='format' value="smp")
+                                span.span Специальность 3
+                        .select-custom__err-text Пожалуйста, выберите специальность!
+                    label.modal-block__label.standart-label
+                      span Дата окончания <br> сертификата
+                      input.modal-block__body-input(placeholder="12.03.2025" data-type='date')
+                    label.modal-block__label.standart-label
+                      span Текущее кол-во <br> баллов НМО
+                      input.modal-block__body-input(placeholder="000" data-type="nmo")
+                  #add-spec.btn.btn--white.btn--black-border(style="margin-top: 20px;") + Добавить специальность
+                button.btn.btn-block.modal-block__body-btn(data-send-req="specs") Продолжить
               .tab-pane.fade#adress
-                form
-                  .modal-block__p-and-border
-                    .modal-block__inputs-wrap
-                      label.modal-block__label.standart-label
-                        span Город
-                        input.modal-block__body-input(placeholder="Москва")
-                      label.modal-block__label.standart-label
-                        span Почтовый индекс
-                        input.modal-block__body-input(placeholder="000 000" data-type="index")
-                      label.modal-block__label.standart-label
-                        span Адрес отправки документов
-                        input.modal-block__body-input(placeholder="Ул. Юнатов, д1, п7, кв 153")
-                    .modal-block__inputs-wrap
-                      label.modal-block__label.standart-label
-                        span Получатель документов
-                        input.modal-block__body-input(type="text" placeholder="Иванов Иван" required)
-                  button.btn.btn-block.modal-block__body-btn Продолжить
-              .tab-pane.fade#yourdocuments
-                form
-                  .modal-block__p-and-border
-                    .modal-block__inputs-wrap
-                      label.modal-block__label.standart-label
-                        span Паспорт
-                        .custom-file
-                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
-                          label.custom-file-label(for="exampleInputFile") Файл не выбран
-                      label.modal-block__label.standart-label
-                        span Договор
-                        .custom-file
-                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
-                          label.custom-file-label(for="exampleInputFile") Файл не выбран
-                    .modal-block__inputs-wrap
-                      label.modal-block__label.standart-label
-                        span Паспорт
-                        .custom-file
-                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
-                          label.custom-file-label(for="exampleInputFile") Файл не выбран
-                      label.modal-block__label.standart-label
-                        span Договор
-                        .custom-file
-                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
-                          label.custom-file-label(for="exampleInputFile") Файл не выбран
-                    .modal-block__inputs-wrap
-                      label.modal-block__label.standart-label
-                        span Паспорт
-                        .custom-file
-                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
-                          label.custom-file-label(for="exampleInputFile") Файл не выбран
-                      label.modal-block__label.standart-label
-                        span Договор
-                        .custom-file
-                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
-                          label.custom-file-label(for="exampleInputFile") Файл не выбран
-                    .modal-block__inputs-wrap
-                      label.modal-block__label.standart-label
-                        span Паспорт
-                        .custom-file
-                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
-                          label.custom-file-label(for="exampleInputFile") Файл не выбран
-                      label.modal-block__label.standart-label
-                        span Договор
-                        .custom-file
-                          input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
-                          label.custom-file-label(for="exampleInputFile") Файл не выбран
-                  button.btn.btn-block.modal-block__body-btn Завершить
+                .modal-block__p-and-border
+                  .modal-block__inputs-wrap
+                    label.modal-block__label.standart-label
+                      span Город
+                      input.modal-block__body-input(placeholder="Москва")
+                    label.modal-block__label.standart-label
+                      span Почтовый индекс
+                      input.modal-block__body-input(placeholder="000 000" data-type="index")
+                    label.modal-block__label.standart-label
+                      span Адрес отправки документов
+                      input.modal-block__body-input(placeholder="Ул. Юнатов, д1, п7, кв 153")
+                  .modal-block__inputs-wrap
+                    label.modal-block__label.standart-label
+                      span Получатель документов
+                      input.modal-block__body-input(type="text" placeholder="Иванов Иван")
+                button.btn.btn-block.modal-block__body-btn(data-send-req="adress") Продолжить
+              .tab-pane.fade#docs
+                .modal-block__p-and-border
+                  .modal-block__inputs-wrap
+                    label.modal-block__label.standart-label
+                      span Паспорт
+                      .custom-file
+                        input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                        label.custom-file-label(for="exampleInputFile") Файл не выбран
+                    label.modal-block__label.standart-label
+                      span Договор
+                      .custom-file
+                        input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                        label.custom-file-label(for="exampleInputFile") Файл не выбран
+                  .modal-block__inputs-wrap
+                    label.modal-block__label.standart-label
+                      span Паспорт
+                      .custom-file
+                        input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                        label.custom-file-label(for="exampleInputFile") Файл не выбран
+                    label.modal-block__label.standart-label
+                      span Договор
+                      .custom-file
+                        input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                        label.custom-file-label(for="exampleInputFile") Файл не выбран
+                  .modal-block__inputs-wrap
+                    label.modal-block__label.standart-label
+                      span Паспорт
+                      .custom-file
+                        input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                        label.custom-file-label(for="exampleInputFile") Файл не выбран
+                    label.modal-block__label.standart-label
+                      span Договор
+                      .custom-file
+                        input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                        label.custom-file-label(for="exampleInputFile") Файл не выбран
+                  .modal-block__inputs-wrap
+                    label.modal-block__label.standart-label
+                      span Паспорт
+                      .custom-file.custom-file--upload.custom-file--loaded.disabled(data-name="docs[паспорт]")
+                        .custom-file-label Загружено
+                        .custom-file__replace Заменить
+                        //- input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                        //- label.custom-file-label(for="exampleInputFile") Файл не выбран
+                    label.modal-block__label.standart-label
+                      span Договор
+                      .custom-file
+                        input.custom-file-input#exampleInputFile(type="file" aria-describedby="fileHelp")
+                        label.custom-file-label(for="exampleInputFile") Файл не выбран
+                button.btn.btn-block.modal-block__body-btn(data-send-req="docs") Завершить
     .modal-block.modal-block--lk#lk-thanks(style="display:none;")
       .modal-block__wrap
         .modal-block__content
@@ -523,25 +542,25 @@ html(lang="ru")
                 .info-lk__block
                   .info-lk__label Специальность 3
                   .info-lk__text Стоматолог - 20.03.25 - 144
-    #login-test.modal-block(style="display:none;")
+    #login.modal-block(style="display:none;")
       .modal-block__wrap
         .modal-block__content(style="width: 310px;")
           .modal-block__head
             .modal-block__head-title Заполните информацию
             button.modal-block__head-close
               img(alt="Академия медицинского образования - фотоизображение" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAlCAYAAAAqXEs9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjMxREVDMEM0MEY0RTExRUFCMkE5RUJFMzJEOUQ0REFEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjMxREVDMEM1MEY0RTExRUFCMkE5RUJFMzJEOUQ0REFEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MzFERUMwQzIwRjRFMTFFQUIyQTlFQkUzMkQ5RDREQUQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MzFERUMwQzMwRjRFMTFFQUIyQTlFQkUzMkQ5RDREQUQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5ZVFPBAAADVUlEQVR42ryYWUgVURjHr1NEi2JU2uKS2WqGLRRRWVGhkUUURVhESCsFZvrWUy9B9dIe0SYSEVG0ErYnkW0ULZTaorigkdrCbaOEsv+B/8Dxa67emTtzP/g9zDfbjzPnnO+cicheW+BjxIEGX/gjDWwHS4HfYDIdvAb5YZYZBW6COeAGiFZCU0AxiAQ7waYwyaSC2yCGxxPAaSW0GURpFyqpPI9lUoSMCj/YooSyQal2IgLsArkeyYygTKyW+wqywEMl9J0H94XUHrDBZZnhlOmn5b7p7zdE8oGQ2g/WuSQzjDL9tZzZGPfMhCG+oertj4TUQbAmRJmhlBmg5X5QRu8ubYRMqdngsZA6BFY5lBlMmTgt9xPMBXflxYbFA5RUBngipI6AlTZlkkEJiBcy88AdqxuMAA9SUpngqZA6DHKClBlEmQQhM595nx0hFV/YUs+0XCdwFKzoQCaJL00UMgvArfZuNDp48GdKPRdShWB5gHsSKTNQy/0CC1kefKEIqfhEqRdCqggsE9cmUCZJy/2mzPVgvrMRZH/4SKlXQuo4WMLjeMoka9e0UOZqsKPAsDFimsFMUCakTrLMlHCIS5krdoalYXMYm1LlQmovGCJkFnEV4fNSSEUTpSoCnG/hZ7zsZBZ1IqSikR261eKcKsoXndYYp0J92XciLM7lcfILm1Asa1NKgPNdwBmWB8+FYigzUsv9ARtBpZA6y2rumVAMF+SpQkbN2PvADFAlpM5zSeO6UB9O+2lCRtW0Uzyu5+irFlLnuKRxTag3ZUYLmRx2bD3q2FI1Wq4rWyrTDaFelBkjZNS66ESAe2opVavlulEqIxShnpQZq+X+gtWsYe1FDaXqtFx3cAHMciIUTZlxWq6Va+uiILtDNftUvZC6BKbbETJlxlvIFNocxVVsKSmlaty0YISUzDVua3UZtRU65nDyrWRLNVhITW1PKJpLhYlCZj0X+KHEO0q913I9KJVuJRTFk5OETC63QG7EW0p90HKRfO9kXei/JGVUkTzg8lb6DaUatVybxjA406YLmXyWAy+iglJNVt1FCW3j3t6MAq5pvIxySjULqa0GN/pZ3Pgrmd1h+mFVxknSlFI75cWdeVDK/zbh/sf4kuVkB/9T+f8JMABl7MG5NjxABwAAAABJRU5ErkJggg==")
-          #login-step1.modal-block__body(style="display:none;")
+          #login-tel.modal-block__body(style="display:block;")
             .modal-block__text Для входа - введите номер телефона и мы вышлем код подтверждения
             form#auth_form
               label.modal-block__label.standart-label.field-required
-                input.modal-block__body-input(type="tel" placeholder="+7 999 999 99 99" required="" name="login")
+                input.modal-block__body-input#tel-inpt(type="tel" placeholder="+7 999 999 99 99" required="" name="login")
               .modal-block__text
                 input(type="checkbox" )
                 span(style="margin: 0 5px;") Соглашаюсь с
-                a.modal-block__a(href="#" data-target-modal-id='policy') политикой обработки данных
-              button.btn.btn-block.modal-block__body-btn(data-target-modal-id='tel-code') Продолжить
+                a.modal-block__a(href="#" data-change-modal-body='policy') политикой обработки данных
+              button.btn.btn-block.modal-block__body-btn(data-target-modal-id='send-tel-code') Продолжить
               .modal-block__text-center
-                span.modal-block__a(data-target-modal-id='login-mail') Войти через e-mail
+                span.modal-block__a(data-change-modal-body='login-mail') Войти через e-mail
           #login-mail.modal-block__body(style="display:none;")
             #auth_message
             form#auth_form
@@ -550,58 +569,20 @@ html(lang="ru")
               label.modal-block__label.standart-label
                 input.modal-block__body-input(type="password" placeholder="Пароль" required="" name="password")
               .modal-block__text-center
-                span.modal-block__a#donthavepass(data-target-modal-id='step2') У меня нет пароля
+                span.modal-block__a#donthavepass(data-change-modal-body='send-mail-code') У меня нет пароля
               button.btn.btn-block.modal-block__body-btn(type="submit") Войти
               .modal-block__text-center
-                span.modal-block__a(data-target-modal-id='login-step1') Войти с помощью телефона
-          #step2.modal-block__body(style="display:none;")
-            .modal-block__text Выберите тип договора
-            form.lk-form.modal-block__btns-wrap
-              button.btn.modal-block__btn(data-target-modal-id='step3--fiz') Физ. лицо
-              button.btn.modal-block__btn(disabled) Юр. лицо
-              //- button.btn.modal-block__btn(data-target-modal-id='step3--ur') Юр. лицо
-          #step3--fiz.modal-block__body(style="display:none;")
+                span.modal-block__a(data-change-modal-body='login-tel') Войти с помощью телефона
+          #send-mail-code.modal-block__body(style="display:none;")
             form.lk-form
               .modal-block__text Введите вашу почту - на нее будет выслал код подтвержения
               label.modal-block__label.standart-label.field-required
                 input.modal-block__body-input(type="email" placeholder="Email" maxlength="50" required)
               .modal-block__text-center
-              button.btn.btn-block.modal-block__body-btn(data-target-modal-id='mail-code') Продолжить
+              button.btn.btn-block.modal-block__body-btn(data-target-modal-id='check-code') Продолжить
               .modal-block__text-center
-                span.modal-block__a(data-target-modal-id='login-step1') Войти с помощью телефона
-          #step3--ur.modal-block__body(style="display:none;")
-            form.lk-form
-              .modal-block__text Введите номер договора и дату заключения
-              .modal-block__input-wrap
-                label.modal-block__label.standart-label.field-required
-                  input.modal-block__body-input(type="text" placeholder="АМО - 2022 - 01 - 3334" required="" name="login")
-                label.modal-block__label.standart-label.field-required
-                  input.modal-block__body-input(type="text" placeholder="12.03.2022" required="" name="login")
-              .modal-block__text-center
-              button.btn.btn-block.modal-block__body-btn(data-target-modal-id='mail--ur') Продолжить
-          #mail--ur.modal-block__body(style="display:none;")
-            form.lk-form
-              .modal-block__text Введите вашу почту - на нее будет выслал код подтвержения
-              label.modal-block__label.standart-label.field-required
-                input.modal-block__body-input(type="email" placeholder="Email" required="")
-              .modal-block__text-center
-              button.btn.btn-block.modal-block__body-btn(data-target-modal-id='mail-code') Продолжить
-          #mail-code.modal-block__body(style="display:none;")
-            form.lk-form
-              .modal-block__text На указанную вами почту был выслан код подтверждения.
-              .modal-block__text Пожалуйста, введите код в форму ниже и нажмите “продолжить”
-              .modal-block__code-wrap
-                label.modal-block__label.standart-label
-                  input.modal-block__body-input(type="number" maxlength="1" placeholder="" required)
-                label.modal-block__label.standart-label
-                  input.modal-block__body-input(type="number" maxlength="1" required)
-                label.modal-block__label.standart-label
-                  input.modal-block__body-input(type="number" maxlength="1" required)
-                label.modal-block__label.standart-label
-                  input.modal-block__body-input(type="number" maxlength="1" required)
-              .modal-block__text-center
-              button.btn.btn-block.modal-block__body-btn(data-target-modal-id='step5-change-pass') Продолжить
-          #tel-code.modal-block__body(style="display:none;")
+                span.modal-block__a(data-change-modal-body='login-tel') Войти с помощью телефона
+          #send-tel-code.modal-block__body(style="display:none;")
             form.lk-form
               .modal-block__text Пожалуйста, введите код в форму ниже и нажмите “продолжить”
               .modal-block__code-wrap
@@ -617,10 +598,25 @@ html(lang="ru")
               .modal-block__text Отправить еще раз через: 
                 span 60 
                 | сек
-              button.btn.btn-block.modal-block__body-btn(disabled) Войти
+              button.btn.btn-block.modal-block__body-btn(data-target-modal-id='go-to-lk') Войти
               .modal-block__text-center
-                span.modal-block__a(data-target-modal-id='login-mail') Войти через e-mail
-          #step5-change-pass.modal-block__body(style="display:none;")
+                span.modal-block__a(data-change-modal-body='login-mail') Войти через e-mail
+          #check-code.modal-block__body(style="display:none;")
+            form.lk-form
+              .modal-block__text Вам был выслан код подтверждения.
+              .modal-block__text Пожалуйста, введите код в форму ниже и нажмите “продолжить”
+              .modal-block__code-wrap
+                label.modal-block__label.standart-label
+                  input.modal-block__body-input(type="number" maxlength="1" placeholder="" required)
+                label.modal-block__label.standart-label
+                  input.modal-block__body-input(type="number" maxlength="1" required)
+                label.modal-block__label.standart-label
+                  input.modal-block__body-input(type="number" maxlength="1" required)
+                label.modal-block__label.standart-label
+                  input.modal-block__body-input(type="number" maxlength="1" required)
+              .modal-block__text-center
+              button.btn.btn-block.modal-block__body-btn(data-target-modal-id='change-pass') Продолжить
+          #change-pass.modal-block__body(style="display:none;")
             form.lk-form
               .modal-block__text Придумайте пароль
               label.modal-block__label.standart-label
@@ -643,8 +639,8 @@ html(lang="ru")
                 .modal-sert__text Данное удостоверение является электронным представлением <b>без указания регистрационного номера и номера бланка.</b>
                 .modal-sert__text Оригинальный документ вы можете забрать у нас в офисе (<a class="modal-sert__a" href="#">адрес</a>) или заказать доставку почтой.
                 .modal-sert__text.modal-sert__text--var <b>Важно:</b> забрать удостоверение можно через один рабочий день после оставленной заявки на печать оригинала
-                a.btn.btn--white.btn--black-border(href="#отправляем заявку") Оставить заявку на печать оригинала
-                a.btn.btn--white.btn--black-border(href="#" data-modal="true" data-modal-id="#send-docs") Оставить заявку на доставку оригинала
+                a.btn.btn--white.btn--black-border(href="#отправляем заявку") Заберу сам
+                a.btn.btn--white.btn--black-border(href="#" data-modal="true" data-modal-id="#send-docs") Выбрать пункт Яндекс.Доставки
                 a.pdf-btn(href="#") Скачать в виде PDF
     #send-docs.modal-block(style="display:none;")
       .modal-block__wrap
@@ -658,6 +654,28 @@ html(lang="ru")
             .modal-text 125057, Россия, Москва. Ул. Юных Юнатов, д84 к1 кв23
             a.modal-text.modal-text--a(href="#") Ввести другой адрес
             button.btn.btn-block.modal-block__body-btn(data-modal-close="false") Отправить
+    #suc-check.modal-block(style="display:none;")
+      .modal-block__wrap
+        .modal-block__content
+          .modal-block__head
+            .modal-block__head-title Готово
+            button.modal-block__head-close
+              img(alt="Академия медицинского образования - фотоизображение" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAlCAYAAAAqXEs9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjMxREVDMEM0MEY0RTExRUFCMkE5RUJFMzJEOUQ0REFEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjMxREVDMEM1MEY0RTExRUFCMkE5RUJFMzJEOUQ0REFEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MzFERUMwQzIwRjRFMTFFQUIyQTlFQkUzMkQ5RDREQUQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MzFERUMwQzMwRjRFMTFFQUIyQTlFQkUzMkQ5RDREQUQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5ZVFPBAAADVUlEQVR42ryYWUgVURjHr1NEi2JU2uKS2WqGLRRRWVGhkUUURVhESCsFZvrWUy9B9dIe0SYSEVG0ErYnkW0ULZTaorigkdrCbaOEsv+B/8Dxa67emTtzP/g9zDfbjzPnnO+cicheW+BjxIEGX/gjDWwHS4HfYDIdvAb5YZYZBW6COeAGiFZCU0AxiAQ7waYwyaSC2yCGxxPAaSW0GURpFyqpPI9lUoSMCj/YooSyQal2IgLsArkeyYygTKyW+wqywEMl9J0H94XUHrDBZZnhlOmn5b7p7zdE8oGQ2g/WuSQzjDL9tZzZGPfMhCG+oertj4TUQbAmRJmhlBmg5X5QRu8ubYRMqdngsZA6BFY5lBlMmTgt9xPMBXflxYbFA5RUBngipI6AlTZlkkEJiBcy88AdqxuMAA9SUpngqZA6DHKClBlEmQQhM595nx0hFV/YUs+0XCdwFKzoQCaJL00UMgvArfZuNDp48GdKPRdShWB5gHsSKTNQy/0CC1kefKEIqfhEqRdCqggsE9cmUCZJy/2mzPVgvrMRZH/4SKlXQuo4WMLjeMoka9e0UOZqsKPAsDFimsFMUCakTrLMlHCIS5krdoalYXMYm1LlQmovGCJkFnEV4fNSSEUTpSoCnG/hZ7zsZBZ1IqSikR261eKcKsoXndYYp0J92XciLM7lcfILm1Asa1NKgPNdwBmWB8+FYigzUsv9ARtBpZA6y2rumVAMF+SpQkbN2PvADFAlpM5zSeO6UB9O+2lCRtW0Uzyu5+irFlLnuKRxTag3ZUYLmRx2bD3q2FI1Wq4rWyrTDaFelBkjZNS66ESAe2opVavlulEqIxShnpQZq+X+gtWsYe1FDaXqtFx3cAHMciIUTZlxWq6Va+uiILtDNftUvZC6BKbbETJlxlvIFNocxVVsKSmlaty0YISUzDVua3UZtRU65nDyrWRLNVhITW1PKJpLhYlCZj0X+KHEO0q913I9KJVuJRTFk5OETC63QG7EW0p90HKRfO9kXei/JGVUkTzg8lb6DaUatVybxjA406YLmXyWAy+iglJNVt1FCW3j3t6MAq5pvIxySjULqa0GN/pZ3Pgrmd1h+mFVxknSlFI75cWdeVDK/zbh/sf4kuVkB/9T+f8JMABl7MG5NjxABwAAAABJRU5ErkJggg==")
+          .modal-block__body
+            .modal-text Мы отправили счет Вам на почту!
+            button.btn.btn-block.modal-block__body-btn(data-modal-close="true") Спасибо
+    //- #suc-check.modal-block(style="display:none;")
+      .modal-block__wrap
+        .modal-block__content
+          .modal-block__head
+            .modal-block__head-title Пока мы не знаем куда отправлять
+            button.modal-block__head-close
+              img(alt="Академия медицинского образования - фотоизображение" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAlCAYAAAAqXEs9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjMxREVDMEM0MEY0RTExRUFCMkE5RUJFMzJEOUQ0REFEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjMxREVDMEM1MEY0RTExRUFCMkE5RUJFMzJEOUQ0REFEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MzFERUMwQzIwRjRFMTFFQUIyQTlFQkUzMkQ5RDREQUQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MzFERUMwQzMwRjRFMTFFQUIyQTlFQkUzMkQ5RDREQUQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5ZVFPBAAADVUlEQVR42ryYWUgVURjHr1NEi2JU2uKS2WqGLRRRWVGhkUUURVhESCsFZvrWUy9B9dIe0SYSEVG0ErYnkW0ULZTaorigkdrCbaOEsv+B/8Dxa67emTtzP/g9zDfbjzPnnO+cicheW+BjxIEGX/gjDWwHS4HfYDIdvAb5YZYZBW6COeAGiFZCU0AxiAQ7waYwyaSC2yCGxxPAaSW0GURpFyqpPI9lUoSMCj/YooSyQal2IgLsArkeyYygTKyW+wqywEMl9J0H94XUHrDBZZnhlOmn5b7p7zdE8oGQ2g/WuSQzjDL9tZzZGPfMhCG+oertj4TUQbAmRJmhlBmg5X5QRu8ubYRMqdngsZA6BFY5lBlMmTgt9xPMBXflxYbFA5RUBngipI6AlTZlkkEJiBcy88AdqxuMAA9SUpngqZA6DHKClBlEmQQhM595nx0hFV/YUs+0XCdwFKzoQCaJL00UMgvArfZuNDp48GdKPRdShWB5gHsSKTNQy/0CC1kefKEIqfhEqRdCqggsE9cmUCZJy/2mzPVgvrMRZH/4SKlXQuo4WMLjeMoka9e0UOZqsKPAsDFimsFMUCakTrLMlHCIS5krdoalYXMYm1LlQmovGCJkFnEV4fNSSEUTpSoCnG/hZ7zsZBZ1IqSikR261eKcKsoXndYYp0J92XciLM7lcfILm1Asa1NKgPNdwBmWB8+FYigzUsv9ARtBpZA6y2rumVAMF+SpQkbN2PvADFAlpM5zSeO6UB9O+2lCRtW0Uzyu5+irFlLnuKRxTag3ZUYLmRx2bD3q2FI1Wq4rWyrTDaFelBkjZNS66ESAe2opVavlulEqIxShnpQZq+X+gtWsYe1FDaXqtFx3cAHMciIUTZlxWq6Va+uiILtDNftUvZC6BKbbETJlxlvIFNocxVVsKSmlaty0YISUzDVua3UZtRU65nDyrWRLNVhITW1PKJpLhYlCZj0X+KHEO0q913I9KJVuJRTFk5OETC63QG7EW0p90HKRfO9kXei/JGVUkTzg8lb6DaUatVybxjA406YLmXyWAy+iglJNVt1FCW3j3t6MAq5pvIxySjULqa0GN/pZ3Pgrmd1h+mFVxknSlFI75cWdeVDK/zbh/sf4kuVkB/9T+f8JMABl7MG5NjxABwAAAABJRU5ErkJggg==")
+          .modal-block__body
+            .modal-text Введите пожалуйста Вашу почту, чтобы получить счет
+            form
+              input.modal-block__body-input(placeholder='Введите почту' required)
+              button.btn.btn-block.modal-block__body-btn(data-modal-close="true") Отправить
     <div class="modal-block modal-block--lk modal-block--big" id="police_modal" style="display:none;">
       <div class="modal-block__wrap">
         <div class="modal-block__content">
@@ -721,24 +739,6 @@ html(lang="ru")
                     <li class="block_4"><b class="calibre1 policity__subtitle">Общие положения</b></li>
                   </ol>
                   <p class="block_5">&nbsp;</p>
-                  <div class="calibre2">
-                    <div class="block_6">1.1.&nbsp;Настоящий документ является Политикой Автономной некоммерческой организации дополнительного профессионального образования «Академия медицинского образования» (далее - Оператор или АНО ДПО «АМО») в отношении обработки персональных данных. Политика определяет цели, общие принципы обработки персональных данных и реализуемые меры по защите персональных данных в АНО ДПО «АМО».</div>
-                    <div class="block_6">1.2.&nbsp;Политика является общедоступным документом АНО ДПО «АМО» и предусматривает возможность ознакомления с ней любых лиц. </div>
-                    <div class="block_6">1.3.&nbsp;Политика действует бессрочно после утверждения и до ее замены новой версией.</div>
-                    <div class="block_6">1.4.&nbsp;В Политике используются термины и определения в соответствии со статьей 3 Федерального закона от 27.07.2006 г. № 152-ФЗ «О персональных данных».</div>
-                    <div class="block_6">1.5.&nbsp;Политика распространяется на всех работников АНО ДПО «АМО», в том числе работающих по договорам гражданско-правового характера, работников, привлекаемых на условиях почасовой оплаты, а также на все отделы и структурные подразделения АНО ДПО «АМО». Требования Политики также являются обязательными и для третьих/иных лиц, при необходимости их участия в процессе обработки персональных данных АНО ДПО «АМО», а также в случаях передачи этим лицам персональных данных на основании соглашений, договоров, поручений на обработку, в установленном порядке.</div>
-                    <div class="block_6">1.6.&nbsp;Действие Политики распространяется на все персональные данные субъектов, обрабатываемые в АНО ДПО «АМО» с применением средств автоматизации и без применения таких средств.</div>
-                  </div>
-                  <ol class="list_">
-                    <li value="2" class="block_7"><b class="calibre1 policity__subtitle">Информация об Операторе</b></li>
-                  </ol>
-                  <p class="block_5">&nbsp;</p>
-                  <div class="calibre2">
-                    <div class="block_6">2.1.&nbsp;Полное наименование Оператора: Автономная некоммерческая организация дополнительного профессионального образования «Академия медицинского образования». </div>
-                    <div class="block_6">2.2.&nbsp;Сокращенное наименование Оператора: АНО ДПО «АМО»</div>
-                    <div class="block_6">2.3.&nbsp;ОГРН: 11177700010410, ИНН 7703429438 / КПП&nbsp;770301001</div>
-                    <div class="block_6">2.4.&nbsp;Место нахождения: 125009, г. Москва, Газетный переулок д.3-5, строение 1</div>
-                  </div>
                 </div>
               </noindex>
             </div>
@@ -754,3 +754,4 @@ html(lang="ru")
     <script src="js/datepicker.js"></script>
     <script src="js/lk.js"></script>
     <script src="js/delete-lk.js"></script>
+    <script src="js/croppie.js"></script>

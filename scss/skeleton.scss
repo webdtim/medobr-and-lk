@@ -1,0 +1,51 @@
+
+@mixin skeleton-gradient {
+    background: linear-gradient(-60deg, #ebecee, #f8f8f8, #e8ecec);
+	background-size: 400% 400%;
+	animation: gradient 2s ease infinite;
+}
+
+.skeleton-md-row {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+
+    @include skeleton-gradient
+}
+
+.skeleton-sm-row {
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+
+    @include skeleton-gradient
+}
+
+.skeleton-lg-row {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+
+    @include skeleton-gradient
+}
+
+.skeleton-block {
+    padding: 10px;
+    background: #efefef;
+    height: 140px;
+    border-radius: 4px;
+
+    @include skeleton-gradient
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}

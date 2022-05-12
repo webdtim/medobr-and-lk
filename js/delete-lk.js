@@ -8,9 +8,10 @@ $('body').on('click','#donthavepass', function() {
 $('body').on('click','[data-target-modal-id]', function() {
   const elem = $(this)
   const idElem = elem.data('target-modal-id')
+  console.log(idElem)
   const form = elem.closest('form')
 
-  // nextStepInModal(elem)
+  nextStepInModal(elem)
   
   // отменяем отправку формы и самостоятельно отправляем запрос
   // form.unbind('submit', formHandler)
@@ -49,10 +50,14 @@ $('body').on('click','[data-target-modal-id]', function() {
         }
         break;
 
-      case 'mail--ur':
-        // проверка email
-        console.log('шаг с договором юр. лиц');
-        break;
+      case 'tel-code':
+        if ( allRequiredIsFilled(allReqFileds) ) {
+          const phone = ''
+          sendRequest('https://medobr.com/ajax/lk/sendcode.php', `phone=${phone}`)
+        } else {
+          console.error('неверно заполнено поле')
+        }
+        break
 
       case 'step5-change-pass':
         console.log('4х значный код');
@@ -82,33 +87,20 @@ $('body').on('click','[data-target-modal-id]', function() {
         if ( passEqual(allReqFileds) ) {
           const passNew = $('#pass-new').val()
           const passRepeat = $('#pass-repeat').val()
-          console.log('отправляем новый пароль');
-        //   fetch(`https://medobr.com/ajax/lk/sendcode.php?code=${codeCheck}&setpasswd=Y&password=${passNew}&&password_repeat=${passRepeat}`, {
-        //     credentials: 'include'
-        //   })
-        // //   sendRequest('https://medobr.com/ajax/lk/entercode.php', `code=${codeCheck}&setpasswd=Y&password=${passNew}&&password_repeat=${passRepeat}`)
-        //     .then(response => response.json())
-        //     .then(data => {
-        //       console.log(data)
-        //       if (data.status === 'ok') {
-        //         alert('Новый пароль установлен!')
-        //         // closeModal(elem)
-        //         window.location.href = 'https://medobr.com/lk/'
-        //       } else if (data.error) {
-        //         alert(data.error)
-        //       }
-        //     })
+
           sendRequest('https://medobr.com/ajax/lk/entercode.php', `code=${codeCheck}&setpasswd=Y&password=${passNew}&&password_repeat=${passRepeat}`)
-          // тестовый промис
-          // let promise = new Promise(function(resolve, reject) {
-          //   setTimeout(() => resolve({status: 'ok'}), 500);
-          // })
-          // promise
             .then(data => {
               console.log(data)
               if (data.status === 'ok') {
                 alert('Новый пароль установлен!')
                 // closeModal(elem)
+              } else if (data.error) {
+                alert(data.error)
+                $.post('https://medobr.com/ajax/login.php',{login: testEmail, password: passNew},
+                  function(ret) {
+                    location.href="/lk/";
+                  }
+                );
               }
             })
         } else {
@@ -116,7 +108,7 @@ $('body').on('click','[data-target-modal-id]', function() {
         }
         break;
 
-      default: 
+      default:
         nextStepInModal(elem);
     }
 
@@ -190,17 +182,17 @@ $('body').on('keyup', '.modal-block__code-wrap input', function(e) {
     return
   }
 
-  const allInput = $('.modal-block__code-wrap input')
+  const allInput = curInput.closest('.modal-block__code-wrap').find('input')
   const value = curInput.val()
 
-  if ( value.length < 2 ) {
+  if ( value.length && value.length < 2 ) {
     curInput.val(value[0])
+    curInput.closest('label').next().focus()
   } else if ( curInput[0] === allInput[3] ) {
     curInput.val(value[0])
-    console.log('go to next step')
   } else {
     for (let i = 0; i < value.length; i++) {
-      const input = $('.modal-block__code-wrap input')[i]
+      const input = allInput[i]
       input.value = value[i]
   
       if (i === allInput.length - 1 ) {
@@ -225,8 +217,23 @@ $('body').on('keydown', '.modal-block__code-wrap input', function(e) {
 
 // загрузка файлов
 $('body').on('change', '.custom-file-input', function(){
-  var fileName = $(this).val().replace(/^.*[\\\/]/, '');
-  $(this).closest('.custom-file').find('label.custom-file-label').text(fileName)
+  const fileName = $(this).val().replace(/^.*[\\\/]/, '');
+  const customFile = $(this).closest('.custom-file')
+  if (!fileName) {
+    customFile.addClass('error')
+    return
+  }
+  customFile.find('label.custom-file-label').text(fileName)
+  customFile.addClass('custom-file--loaded')
+  customFile.removeClass('error')
+})
+
+$('body').on('click', '.custom-file__replace', function(){
+  const customFile = $(this).closest('.custom-file')[0]
+  customFile.classList = 'custom-file'
+
+  customFile.innerHTML = `<input class="custom-file-input" id="exampleInputFile" type="file" aria-describedby="fileHelp" name="${customFile.dataset.name}">
+  <label class="custom-file-label" for="exampleInputFile">Файл не выбран</label>`
 })
 
 // *********
@@ -258,3 +265,27 @@ function openModal(id) {
 function clearModal(id) {
   $(`#${id}`).find('.modal-block__body').html() = ''
 }
+
+
+
+//Modals
+$('body').on('click', '[data-modal=true]', function (e) {
+  e.preventDefault();
+  let id = $(this).attr('data-modal-id');
+  //console.log('test');
+  $(id).toggle();
+  if ($(id).is(':visible') == true) {
+      $('body').css('overflow', 'hidden');
+  } else {
+      $('body').css('overflow', '');
+  }
+});
+$('body').on('mousedown', '.modal-block', function (e) {
+  if (e.target !== this) return;
+  $(this).toggle();
+  $('body').css('overflow', '');
+});
+$('body').on('click', '.modal-block__head-close', function (e) {
+  $(this).closest('.modal-block').hide();
+  $('body').css('overflow', '');
+});

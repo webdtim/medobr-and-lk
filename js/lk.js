@@ -120,12 +120,6 @@ function createInfoBlock(dataText, labelText, modifyClass) {
 }
 
 
-
-
-
-
-
-
 initSelects('select-custom')
 
 // пример: .select-program__dropdown-list 
@@ -151,9 +145,12 @@ function initSelects(nameClassForSelect) {
 
 function CustomSelect({elem, selectClass}) {
 
+  this.selectedValue = function(value) {
+
+  }
+
   elem.addEventListener('click', function(event) {
     const targetSelectItem = event.target.closest(`.${selectClass}__item`)
-
 
     // модификация, в других проектах не использовать
     if(elem.classList.contains('no-open')) {
@@ -170,7 +167,7 @@ function CustomSelect({elem, selectClass}) {
     } else if (targetSelectItem) {
       const checkedValue = targetSelectItem.querySelector('input').value
       const checkedTitle = targetSelectItem.querySelector('input').nextElementSibling.textContent
-      selectedSelecet(checkedTitle, checkedValue)
+      selectedSelecte(checkedTitle, checkedValue)
       closeSelect();
 
       // зависимость селектов друг от друга
@@ -235,7 +232,7 @@ function CustomSelect({elem, selectClass}) {
     else openSelect();
   }
 
-  function selectedSelecet(checkedTitle, checkedValue) {
+  function selectedSelecte(checkedTitle, checkedValue) {
     addClass(elem, 'selected');
     setValue(checkedTitle, checkedValue);
   }
@@ -313,31 +310,37 @@ function createSpec(specs) {
     </div>`)
   }
 
-  const spec = `<div class="modal-block__inputs-wrap">
-    <label class="modal-block__label standart-label"><span>Специальность</span>
-      <div class="select-custom req" data-selected-val="" data-allow-open-next="false">
-        <div class="select-custom__top">
-          <label class="select-custom__preview"><span class="select-custom__desc">Специальность</span>
-            <input class="select-custom__search" placeholder="Выберите тип услуги">
-            <div class="select-custom__head-selected"></div>
-          </label>
-        </div>
-        <div class="select-custom__dropdown">
-          <div class="select-custom__dropdown-body">`
-          + arrSpecs +
-          `</div>
-        </div>
-        <div class="select-custom__err-text">Пожалуйста, выберите специальность!</div>
+  const spec = `
+  <div class="spec">
+    <div class="select-custom select-custom--check req" data-selected-val="" data-allow-open-next="false">
+      <div class="select-custom__top">
+        <label class="select-custom__preview"><span class="select-custom__desc">Специальность</span>
+          <input class="select-custom__search" placeholder="Выберите тип услуги">
+          <div class="select-custom__head-selected"></div>
+        </label>
       </div>
-    </label>
-    <label class="modal-block__label standart-label">
-      <span>Дата окончания <br> сертификата</span>
-      <input class="modal-block__body-input" placeholder="12.03.2025">
-    </label>
-    <label class="modal-block__label standart-label">
-      <span>Текущее кол-во <br> баллов НМО</span>
-      <input class="modal-block__body-input" placeholder="123">
-    </label>
+      <div class="select-custom__dropdown">
+        <div class="select-custom__dropdown-body">`
+        + arrSpecs +
+        `</div>
+      </div>
+      <div class="select-custom__err-text">Пожалуйста, выберите специальность!</div>
+    </div>
+
+    <div class="modal-block__inputs-wrap">
+      <div class="custom-input custom-input--check req">
+        <label class="custom-input__label"><span class="custom-input__desc">Дата окончания сертификата</span>
+          <input class="custom-input__input" placeholder="дд.мм.гггг" data-type="date" data-custom-type="nmo-date">
+        </label>
+        <div class="custom-input__err-text">Неверная дата</div>
+      </div>
+      <div class="custom-input custom-input--check req">
+        <label class="custom-input__label"><span class="custom-input__desc">Имеется баллов НМО</span>
+          <input class="custom-input__input" placeholder="000" data-type="nmo">
+        </label>
+        <div class="custom-input__err-text">Введите баллы</div>
+      </div>
+    </div>
   </div>`
 
   return spec
@@ -347,11 +350,103 @@ function initSpec(elemSelect) {
   initSelect(elemSelect, 'select-custom')
 }
 
+function addItemToSpecList(specList, data) {
+  const allSpec = specList.querySelectorAll('.spec-list__item')
+  const specItem = `<div class="spec-list__item" data-id-spec="${data.id}">
+    <span class="spec-list__num">${allSpec.length + 1}</span>
+    <div class="spec-list__text"><span>${data.name}</span>, <span>${data.date}</span>, <span>${data.point}</span> баллов НМО</div>
+    <div class="spec-list__edit"></div>
+    <div class="spec-list__delete"></div>
+  </div>`
+
+  specList.innerHTML += specItem
+}
+
+function recalculationSpecList(specsList) {
+  const specs = specsList.querySelectorAll('.spec-list__item')
+
+  for( let i = 0; i < specs.length; i++ ) {
+    specs[i].querySelector('.spec-list__num').textContent = i + 1
+  }
+}
+
+function removeSpecListItem(item, specsList) {
+  item.remove()
+  recalculationSpecList(specsList)
+}
+
+function fillCustomField(field, value) {
+  const input = field.querySelector('input')
+  input.value = value
+  validateCustomInput(input)
+}
+
+function selectedCustomSelect(select, id, name) {
+  select.classList.add('selected', 'suc')
+  select.dataset.selectedVal = id
+  select.querySelector('.select-custom__head-selected').textContent = name
+
+  const targetCheckbox = select.querySelector(`input[value="${id}"]`)
+  if (targetCheckbox) targetCheckbox.checked = true
+}
+
+function editSpec({id, name, date, points}, editBtn) {
+  const wrapper = editBtn.closest('.modal-block__p-and-border')
+  const select = wrapper.querySelector('.select-custom')
+  const dateField = wrapper.querySelector('input[data-type="date"]').closest('.custom-input')
+  const pointsField = wrapper.querySelector('input[data-type="nmo"]').closest('.custom-input')
+
+  selectedCustomSelect(select, id, name)
+  fillCustomField(dateField, date)
+  fillCustomField(pointsField, points)
+}
+
+// удаление
+$('body').on('click','.spec-list__delete', function(e) {
+  const item = $(this).closest('.spec-list__item')
+  const specsList = e.target.closest('.spec-list')
+
+  removeSpecListItem(item, specsList)
+})
+
+// редактирование
+$('body').on('click','.spec-list__edit', function(e) {
+  const editBtn = e.target
+  const item = $(this).closest('.spec-list__item')
+  const specsList = editBtn.closest('.spec-list')
+
+  const id = item.data('id-spec')
+  const allSpans = item.find('.spec-list__text').find('span')
+  const name = allSpans[0].textContent
+  const date = allSpans[1].textContent
+  const points = allSpans[2].textContent.replace(/[^+\d]/g, '')
+
+  editSpec({id, name, date, points}, editBtn)
+
+  removeSpecListItem(item, specsList)
+})
+
 $('body').on('click','#add-spec', function(e) {
+  const spec = $('.spec')
+  if (!validateAllFormFields(spec)) return
+  const specsWrap = e.target.closest('.modal-block__p-and-border')
+  const specList = specsWrap.querySelector('.spec-list')
+  const select = spec.find('.select-custom')
+
+  const id = select.data('selected-val')
+  const name = select.find('.select-custom__head-selected').text()
+  const date = spec.find('input[data-type="date"]').val()
+  const point = spec.find('input[data-type="nmo"]').val()
+
+  addItemToSpecList(specList, {id, name, date, point})
+
+  spec.remove()
+
+  // добавляем новые поля ввода
   $(this).before(createSpec([{title: 'спек 1', value: 'spec1'}, {title: 'спек 2', value: 'spec2'}]))
-  
-  const selectElem = e.target.previousElementSibling.querySelector('.select-custom')
-  initSpec(selectElem)
+  // вешаем слушатель
+  const selectElem = specsWrap.querySelectorAll('.select-custom')
+  initSpec(selectElem[selectElem.length - 1])
 })
 
 // choose-seminar
@@ -400,23 +495,67 @@ $('body').on('change', '#agree-off', function() {
 
 function validateCustomInput(inpt) {
   const customInput = inpt.closest('.custom-input')
-  const reg = inpt.dataset.typeInpt
+  const reg = inpt.dataset.customType
+
+  function addError() {
+    customInput.classList.add('error')
+    customInput.classList.remove('suc')
+    return false
+  }
+
+  function addSuc() {
+    customInput.classList.remove('error')
+    customInput.classList.add('suc')
+    customInput.classList.add('open')
+    return true
+  }
 
   if (!inpt.value) {
-    customInput.classList.add('error')
-    return false
+    return addError()
   } else {
-    if(reg) {
-      // switch 
-    } else {
-      customInput.classList.remove('error')
-      return true
+
+    const nVal = inpt.value.replace(/[^+\d]/g, '')
+
+    switch (reg) {
+      case 'nmo':
+        return nVal > 9 ? addSuc() : addError()
+      case 'birth-date':
+        if (  nVal.length < 8 || nVal.slice(0,2) > 31 || nVal.slice(0,2) < 1
+              || nVal.slice(2,4) > 12 || nVal.slice(2,4) < 1
+              || nVal.slice(4) < 1880 || nVal.slice(4) > (new Date()).getFullYear() - 10) {
+          return addError()
+        } else {
+          return addSuc()
+        }
+      case 'nmo-date':
+        if (  nVal.length < 8 || nVal.slice(0,2) > 31 || nVal.slice(0,2) < 1
+              || nVal.slice(2,4) > 12 || nVal.slice(2,4) < 1
+              || nVal.slice(4) < (new Date()).getFullYear() - 1 || nVal.slice(4) > (new Date()).getFullYear() + 10) {
+          return addError()
+        } else {
+          return addSuc()
+        }
+      case 'index':
+        return nVal.length === 6 ? addSuc() : addError()
+      case 'snils':
+        return nVal.length === 11 ? addSuc() : addError()
+      case 'tel':
+        if (nVal[0] == 7 || nVal[0] == 8) return nVal.length === 11 ? addSuc() : addError()
+        else return (nVal.length >= 11 && nVal.length <= 16) ? addSuc() : addError()
+      default:
+        return addSuc()
     }
+    // if (reg) {
+    //   // switch 
+    // } else {
+    //   customInput.classList.remove('error')
+    //   return true
+    // }
   }
 }
 
-$('body').on('click', '.custom-input', function(e) {
-  const customInput = $(this)
+$('body').on('click', '.custom-input__label', function(e) {
+  const customInput = $(this).closest('.custom-input')
   customInput.addClass('open')
 })
 
@@ -445,7 +584,6 @@ $('body').on('keyup', 'input', function(e) {
       $(this).val($(this).val().replace(/[^+\d]/g, ''))
       break;
     case 'snils':
-      
       for (let i = 0; i < tempValueNumber.length; i++) {
         if (i === 2) {
           formatedValue += tempValueNumber[i] + '-'
@@ -461,7 +599,6 @@ $('body').on('keyup', 'input', function(e) {
       $(this).val(formatedValue)
       break;
     case 'ser-pass':
-
       for (let i = 0; i < tempValueNumber.length; i++) {
         if (i === 1) {
           formatedValue += tempValueNumber[i] + ' '
@@ -473,7 +610,6 @@ $('body').on('keyup', 'input', function(e) {
       $(this).val(formatedValue)
       break;
     case 'num-pass':
-      
       for (let i = 0; i < tempValueNumber.length; i++) {
         if (i >= 6) {
         } else {
@@ -483,7 +619,6 @@ $('body').on('keyup', 'input', function(e) {
       $(this).val(formatedValue)
       break;
     case 'code-pass':
-
       for (let i = 0; i < tempValueNumber.length; i++) {
         if (i === 2) {
           formatedValue += tempValueNumber[i] + '-'
@@ -495,7 +630,6 @@ $('body').on('keyup', 'input', function(e) {
       $(this).val(formatedValue)
       break;
     case 'date':
-
       for (let i = 0; i < tempValueNumber.length; i++) {
         if (i === 1) {
           formatedValue += tempValueNumber[i] + '.'
@@ -508,8 +642,10 @@ $('body').on('keyup', 'input', function(e) {
       }
       $(this).val(formatedValue)
       break;
-    case 'index':
+    case 'tel':
 
+      break;
+    case 'index':
       for (let i = 0; i < tempValueNumber.length; i++) {
         if (i === 2) {
           formatedValue += tempValueNumber[i] + ' '
@@ -521,7 +657,6 @@ $('body').on('keyup', 'input', function(e) {
       $(this).val(formatedValue)
       break;
     case 'nmo':
-
       for (let i = 0; i < tempValueNumber.length; i++) {
         if (i >= 4) {
         } else {
@@ -715,15 +850,25 @@ $('body').on('click', '[data-send-req]', function(e) {
 
     case 'specs':
       const specsBody = []
-      const specsElems = document.querySelectorAll('#specs .spec_block')
+      const specsElems = document.querySelectorAll('.spec-list__item')
+      const newSpec = document.querySelector('.spec')
       
       for (let spec of specsElems) {
-        const inptSpec = spec.querySelector('input[type="radio"]:checked')
-        if (!inptSpec) continue
-        const id = inptSpec.value
-        const date = spec.querySelector('input[data-type="date"]').value
-        const nmo = spec.querySelector('input[type="number"]').value
+        const id = spec.dataset.idSpec
+        const spansInText = spec.querySelectorAll('.spec-list__text span')
+        const date = spansInText[1].textContent
+        const nmo = spansInText[2].textContent
         specsBody.push({id, date, nmo})
+      }
+
+      {
+        const inptSpec = newSpec.querySelector('input[type="radio"]:checked')
+        if (inptSpec) {
+          const id = inptSpec.value
+          const date = spec.querySelector('input[data-type="date"]').value
+          const nmo = spec.querySelector('input[data-type="nmo"]').value
+          specsBody.push({id, date, nmo})
+        }
       }
       
       if (!specsBody.length) return
@@ -766,21 +911,6 @@ $('body').on('click', '[data-send-req]', function(e) {
       //   .catch(err => console.error(err));
       break;
 
-    case 'adress':
-      console.log('send adress')
-      // fetch(`https://medobr.com/ajax/lk/setparams.php?`)
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     console.log(data)
-      //     if (data.status === 'ok') {
-
-      //     } else {
-      //       alert('что-то пошло не так. Не удалось обновить информацию')
-      //     }
-      //   })
-      //   .catch(err => console.error(err));
-      break;
-
     case 'docs':
       const formData = new FormData();
       const filesFields = tab.find('input[type="file"]');
@@ -807,4 +937,36 @@ $('body').on('click', '[data-send-req]', function(e) {
 
 })
 
+
+
+// CUSTOM MODAL
+$('body').on('click','[data-custom-modal]', (e) => {
+  const targetId = e.target.dataset.customModal
+  openCustomModal(targetId)
+})
+
+$('body').on('click','[data-custom-modal-close="true"]', closedCustomModal)
+
+function openCustomModal(id) {
+  const targetModal = $('#' + id)
+
+  if (targetModal) {
+    targetModal.addClass('open')
+    // blockedBody()
+  } else console.error(`Не удалось найти модал с id ${targetId}`)
+}
+
+function closedCustomModal(e) {
+  const modal = e.target.closest('.custom-modal')
+  modal.classList.remove('open')
+  // unblockedBody()
+}
+
+function blockedBody() {
+  $('body').addClass('body--no-scroll')
+}
+
+function unblockedBody() {
+  $('body').removeClass('body--no-scroll')
+}
 

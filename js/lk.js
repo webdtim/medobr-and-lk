@@ -312,7 +312,7 @@ function createSpec(specs) {
 
   const spec = `
   <div class="spec">
-    <div class="select-custom select-custom--check req" data-selected-val="" data-allow-open-next="false">
+    <div class="select-custom select-custom--check" data-selected-val="" data-allow-open-next="false">
       <div class="select-custom__top">
         <label class="select-custom__preview"><span class="select-custom__desc">Специальность</span>
           <input class="select-custom__search" placeholder="Выберите тип услуги">
@@ -350,16 +350,52 @@ function initSpec(elemSelect) {
   initSelect(elemSelect, 'select-custom')
 }
 
-function addItemToSpecList(specList, data) {
-  const allSpec = specList.querySelectorAll('.spec-list__item')
+function unSelectedSelect(elem) {
+  elem.classList.remove('selected', 'suc')
+  elem.dataset.selectedVal = ''
+  elem.querySelector(`.select-custom__head-selected`).textContent = ''
+}
+
+function clearInput(input) {
+  input.classList.remove('open', 'suc', 'error')
+  input.querySelector(`input`).value = ''
+}
+
+function clearSpec(spec) {
+  const select = spec.querySelector('.select-custom')
+  const inputDate = spec.querySelector('input[data-type="date"]').closest('.custom-input')
+  const inputPoint = spec.querySelector('input[data-type="nmo"]').closest('.custom-input')
+  unSelectedSelect(select)
+  clearInput(inputDate)
+  clearInput(inputPoint)
+}
+
+function addItemToSpecList(e) {
+  const spec = $('.spec')
+  if (!validateAllFormFields(spec)) return
+  const specsWrap = e.target.closest('.modal-block__p-and-border')
+  const specList = specsWrap.querySelector('.spec-list')
+  const totalCount = specList.querySelectorAll('.spec-list__item').length
+  const select = spec.find('.select-custom')
+
+  const id = select.data('selected-val')
+  const name = select.find('.select-custom__head-selected').text()
+  const date = spec.find('input[data-type="date"]').val()
+  const point = spec.find('input[data-type="nmo"]').val()
+
+  clearSpec(spec[0])
+  
+  specList.innerHTML += createSpecListItem({id, name, date, point, totalCount})
+}
+
+function createSpecListItem(data) {
   const specItem = `<div class="spec-list__item" data-id-spec="${data.id}">
-    <span class="spec-list__num">${allSpec.length + 1}</span>
+    <span class="spec-list__num">${data.totalCount + 1}</span>
     <div class="spec-list__text"><span>${data.name}</span>, <span>${data.date}</span>, <span>${data.point}</span> баллов НМО</div>
     <div class="spec-list__edit"></div>
     <div class="spec-list__delete"></div>
   </div>`
-
-  specList.innerHTML += specItem
+  return specItem
 }
 
 function recalculationSpecList(specsList) {
@@ -382,6 +418,7 @@ function fillCustomField(field, value) {
 }
 
 function selectedCustomSelect(select, id, name) {
+  select.classList.remove('error')
   select.classList.add('selected', 'suc')
   select.dataset.selectedVal = id
   select.querySelector('.select-custom__head-selected').textContent = name
@@ -421,33 +458,20 @@ $('body').on('click','.spec-list__edit', function(e) {
   const date = allSpans[1].textContent
   const points = allSpans[2].textContent.replace(/[^+\d]/g, '')
 
+  addItemToSpecList(e)
   editSpec({id, name, date, points}, editBtn)
 
   removeSpecListItem(item, specsList)
 })
 
-$('body').on('click','#add-spec', function(e) {
-  const spec = $('.spec')
-  if (!validateAllFormFields(spec)) return
-  const specsWrap = e.target.closest('.modal-block__p-and-border')
-  const specList = specsWrap.querySelector('.spec-list')
-  const select = spec.find('.select-custom')
-
-  const id = select.data('selected-val')
-  const name = select.find('.select-custom__head-selected').text()
-  const date = spec.find('input[data-type="date"]').val()
-  const point = spec.find('input[data-type="nmo"]').val()
-
-  addItemToSpecList(specList, {id, name, date, point})
-
-  spec.remove()
-
-  // добавляем новые поля ввода
-  $(this).before(createSpec([{title: 'спек 1', value: 'spec1'}, {title: 'спек 2', value: 'spec2'}]))
-  // вешаем слушатель
-  const selectElem = specsWrap.querySelectorAll('.select-custom')
-  initSpec(selectElem[selectElem.length - 1])
-})
+$('body').on('click','#add-spec', addItemToSpecList)
+// раньше удалял .spec, а теперь только очищаю
+// spec.remove()
+// // добавляем новые поля ввода
+// $(this).before(createSpec([{title: 'спек 1', value: 'spec1'}, {title: 'спек 2', value: 'spec2'}]))
+// // вешаем слушатель
+// const selectElem = specsWrap.querySelectorAll('.select-custom')
+// initSpec(selectElem[selectElem.length - 1])
 
 // choose-seminar
 $('body').on('click','#btn-add-seminar', function() {
@@ -517,6 +541,9 @@ function validateCustomInput(inpt) {
     const nVal = inpt.value.replace(/[^+\d]/g, '')
 
     switch (reg) {
+      case 'email':
+        const EMAIL_REGEXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+        return EMAIL_REGEXP.test(inpt.value)? addSuc() : addError()
       case 'nmo':
         return nVal > 9 ? addSuc() : addError()
       case 'birth-date':
@@ -786,50 +813,22 @@ $('body').on('click', '[data-send-req]', function(e) {
     case 'contacts':
       console.log('send contacts')
 
-      // $.ajax({
-      //   type: 'POST',
-      //   url: $(this).attr('action'),
-      //   data: new FormData(this),
-      //   contentType: false,
-      //   processData:false,
-      //   //xhrFields: { responseType: 'arraybuffer' },
-      //   success: function(ret,status,xhr){
-      //     $('.create_deal_submit').removeAttr('disabled').html('Перейти к оплате');
-      //     ret = JSON.parse(ret);
-      //     if(ret.error) {
-      //       alert(ret.error);																				
-      //     } else {
-      //       if(ret.link.indexOf('>>')!=-1&&ret.link.indexOf('http')!=-1) {
-      //         $('.create_deal_submit').hide();
-      //         location.href = ret.link.split('>>').join(''); //goto cashdesk
-      //         } 
-      //       else {alert('Ошибка создания платежа!'); console.log(ret.link);}
-      //     }
-      //   }
-      // });
       const contactsBody = {
-        last_name: tab.find('input[name="last_name"]').val(),
-        name: tab.find('input[name="name"]').val(),
-        second_name: tab.find('input[name="second_name"]').val(),
-        birthdate: tab.find('input[name="birthdate"]').val(),
-        snils: tab.find('input[name="snils"]').val()
+        // last_name: tab.find('input[name="last_name"]').val(),
+        // name: tab.find('input[name="name"]').val(),
+        // second_name: tab.find('input[name="second_name"]').val(),
+        // birthdate: tab.find('input[name="birthdate"]').val(),
+        // snils: tab.find('input[name="snils"]').val()
       }
 
-      // fetch('https://medobr.com/ajax/lk/setparams.php', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json;charset=utf-8'
-      //   },
-      //   body: JSON.stringify(contactsBody)
-      // })
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     console.log(data)
-      //     if (data.status !== 'ok') {
-      //       alert('что-то пошло не так. Не удалось обновить информацию')
-      //     }
-      //   })
-      //   .catch(err => console.error(err));
+      const contactsCustomInputs = tab.find('.custom-input.custom-input--check.open.suc')
+
+      for (let contact of contactsCustomInputs) {
+        const contactInput = contact.querySelector('input')
+        const name = contactInput.getAttribute('name')
+
+        contactsBody[name] = contactInput.value
+      }
 
       let strContacts = ''
 
@@ -861,14 +860,12 @@ $('body').on('click', '[data-send-req]', function(e) {
         specsBody.push({id, date, nmo})
       }
 
-      {
-        const inptSpec = newSpec.querySelector('input[type="radio"]:checked')
-        if (inptSpec) {
-          const id = inptSpec.value
-          const date = spec.querySelector('input[data-type="date"]').value
-          const nmo = spec.querySelector('input[data-type="nmo"]').value
-          specsBody.push({id, date, nmo})
-        }
+      const inptSpec = newSpec.querySelector('input[type="radio"]:checked')
+      if (inptSpec) {
+        const id = inptSpec.value
+        const date = newSpec.querySelector('input[data-type="date"]').value
+        const nmo = newSpec.querySelector('input[data-type="nmo"]').value
+        specsBody.push({id, date, nmo})
       }
       
       if (!specsBody.length) return
@@ -882,14 +879,12 @@ $('body').on('click', '[data-send-req]', function(e) {
         }
       })
 
-      console.log(strSpecs)
-
       fetch(`https://medobr.com/ajax/lk/setparams.php?${strSpecs}`)
         .then(response => response.json())
         .then(data => {
           console.log(data)
           if (data.status !== 'ok') {
-            alert('что-то пошло не так. Не удалось обновить информацию  ' + data.error)
+            console.error('что-то пошло не так. Не удалось обновить информацию  ' + data.error)
           }
         })
         .catch(err => console.error(err));
@@ -934,10 +929,7 @@ $('body').on('click', '[data-send-req]', function(e) {
         .catch(err => console.error(err));
       break;
   }
-
 })
-
-
 
 // CUSTOM MODAL
 $('body').on('click','[data-custom-modal]', (e) => {
@@ -952,14 +944,35 @@ function openCustomModal(id) {
 
   if (targetModal) {
     targetModal.addClass('open')
-    // blockedBody()
+    blockedBody()
   } else console.error(`Не удалось найти модал с id ${targetId}`)
+}
+
+function setCustomModal({id, title, body, footer}) {
+  const modal = $('#' + id)
+  const modalTitle = modal.find('.custom-modal__title')
+  const modalBody = modal.find('.custom-modal__body')
+  const modalFooter = modal.find('.custom-modal__footer')
+  modalTitle.text(title)
+  modalBody.html(body)
+  modalFooter.html(footer)
+}
+
+function showUserInfoInModal({id, title, body, footer}) {
+  setCustomModal({id, title, body, footer})
+  openCustomModal(id)
 }
 
 function closedCustomModal(e) {
   const modal = e.target.closest('.custom-modal')
   modal.classList.remove('open')
-  // unblockedBody()
+  unblockedBody()
+}
+
+function closeCustomModalWithId(id) {
+  const modal = document.querySelector('#'+id)
+  modal.classList.remove('open')
+  unblockedBody()
 }
 
 function blockedBody() {
@@ -970,3 +983,194 @@ function unblockedBody() {
   $('body').removeClass('body--no-scroll')
 }
 
+
+// доставка сертификата
+
+function replaceActionsDeliveryWithSupportBtn() {
+  const supBlock = `<div class="modal-sert__block-gray">
+    <div class="modal-sert__text">Вами была запрошена доставка документа.</div>
+    <div class="modal-sert__text">Есть вопросы по доставке?</div>
+    <button class="btn btn--white btn--black-border" id="help">Связаться с нами</button>
+  </div>`
+
+  document.getElementById('action-delivery').innerHTML = supBlock
+}
+
+function showErrorMessage(errText) {
+  const body = `
+  <div class="custom-modal__inner">
+    <div class="modal-text">${errText}</div>
+  </div>`
+  const footer = `<button class="btn btn-block modal-block__body-btn" data-custom-modal-close="true" style="margin-top: 0;">Понятно</button>`
+  showUserInfoInModal({id:'showUserError', title: 'Ошибка', body, footer})
+}
+
+function orderPrintingAndDeliveryOfCertificate(id) {
+  // let type = from === 'pickup' ? 'office' : 'pickpoint'
+  let type = 'pickpoint'
+  const body = `<div class="modal-text">В ближайшее время документы будут высланы на выбранный вами постамат.</div>
+    <div class="modal-text">Код отслеживания будет выслан вам на почту <b>${window.userEmail}</b></div>`
+  const footer = `<button id="pickpoint-suc" class="btn btn-block modal-block__body-btn" data-custom-modal-close="true" style="margin-top: 0;">Понятно</button>`
+  
+  fetch(`https://medobr.com/ajax/lk/delivery/create.php?obuchenie_id=${id}&type=pickpoint`)
+    .then(res => res.json())
+    .then(res => {
+      if (res.status === 'ok') {
+        showUserInfoInModal({
+          id: 'showUserInfo',
+          title: 'Мы получили ваш запрос на доставку',
+          body: `<div class="custom-modal__inner">
+              ${body}
+            </div>`,
+          footer
+        })
+        replaceActionsDeliveryWithSupportBtn()
+        closeCustomModalWithId('lk-sert')
+      } else {
+        showErrorMessage('Не удалось создать заказ на доставку. Введены неверные данные')
+      }
+    })
+    .catch(err => {
+      console.error('Не удалось отправить запрос', err)
+      showErrorMessage('Не удалось создать заказ на доставку')
+    })
+}
+
+$('body').on('click','#pickup', () => {
+  showUserInfoInModal({
+    id: 'showUserInfo',
+    title: 'Самовывоз из нашего офиса',
+    body: `<div class="custom-modal__inner">
+        <div class="modal-text modal-text--bold">Где забрать:</div>
+        <div class="modal-text">125057, Россия, Москва. Газетный переулок 3-5с1</div>
+        <a class="modal-text modal-text--a" href="https://yandex.ru/maps/213/moscow/house/gazetny_pereulok_3/Z04YcAdnQEYEQFtvfXt0dn5hZg==/?ll=37.608342%2C55.757349&amp;z=18.8" target="_blank">Посмотреть на карте</a>
+        <div class="modal-sert__text modal-sert__text--var">Важно: забрать удостоверение можно через один рабочий день после оставленной заявки на печать оригинала</div>
+      </div>`,
+    footer: `<div class="custom-modal__multiple-btns">
+        <button class="btn btn--white btn--black-border" data-custom-modal-close="true" style="margin-top: 0;">Отмена</button>
+        <button id="pickup-send" class="btn btn-block modal-block__body-btn" data-custom-modal-close="true" style="margin-top: 0;">Оформить для самовывоза</button>
+      </div>`
+  })
+})
+
+function showPickupSucMessage(id) {
+  const userEmail = window.userEmail
+
+  if (userEmail) {
+    fetch(`https://medobr.com/ajax/lk/getcert.php?obuchenie_id=${id}&type=office`)
+    .then(res => res.json())
+    .then(res => {
+      if (res.status === 'ok') {
+        showUserInfoInModal({
+          id: 'showUserInfo',
+          title: 'Мы получили ваш запрос на самовывоз',
+          body: `<div class="custom-modal__inner">
+            <div class="modal-text">Отправили вам на почту <b>${userEmail}</b> письмо, чтобы адрес был под рукой</div>
+          </div>`,
+          footer: `<button id="" class="btn btn-block modal-block__body-btn" data-custom-modal-close="true" style="margin-top: 0;">Понятно</button>`
+        })
+        replaceActionsDeliveryWithSupportBtn()
+        closeCustomModalWithId('lk-sert')
+      }
+    })
+    .catch(err => {
+      console.error('Не удалось отправить запрос', err)
+      showErrorMessage('Не удалось создать заявку на самовывоз')
+    })
+  } else {
+    showUserInfoInModal({
+      id: 'showUserInfo',
+      title: 'Мы получили ваш запрос на самовывоз',
+      body: `<div class="custom-modal__inner">
+        <div class="modal-text">Отправить вам на почту письмо с адресом, чтобы был по рукой?</div>
+        <div class="custom-input custom-input--check" style="margin-top:10px;">
+          <label class="custom-input__label"><span class="custom-input__desc">Ваш e-mail</span>
+            <input class="custom-input__input" type="email" data-custom-type="email" placeholder="test@mail.ru">
+          </label>
+          <div class="custom-input__err-text">Некорректный e-mail</div>
+        </div>
+      </div>`,
+      footer: `<button id="pickup-get-email" class="btn btn-block modal-block__body-btn" style="margin-top: 0;">Отправить</button>`
+    })
+  }
+}
+
+$('body').on('click','#pickup-send', () => {
+  showPickupSucMessage(12)
+})
+
+$('body').on('click','#pickup-get-email', (e) => {
+  const inputUserEmail = e.target.closest('.custom-modal__content').querySelector('.custom-input__input[type="email"]')
+  
+  if (validateCustomInput(inputUserEmail)) {
+    closedCustomModal(e)
+    const userEmail = inputUserEmail.value
+    window.userEmail = userEmail
+    showPickupSucMessage(12)
+  }
+})
+
+$('body').on('click','#pickpoint', () => {
+  PickPoint.open(result => {
+    let valueName = ''
+    if (window.userName) {
+      valueName = 'value="' + window.userName + '"'
+    }
+
+    const inptName = `<div class="custom-input custom-input--check ${valueName? 'open suc': ''}" style="margin-top:10px;">
+      <label class="custom-input__label"><span class="custom-input__desc">Имя получателя</span>
+        <input class="custom-input__input" ${valueName} type="text" placeholder="Иванов Иван Иванович">
+      </label>
+      <div class="custom-input__err-text">Укажите имя получателя</div>
+    </div>`
+
+    let valueEmail = ''
+    if (window.userEmail) {
+      valueEmail = 'value="' + window.userEmail + '"'
+    }
+
+    const inptEmail = `<div class="custom-input custom-input--check ${valueEmail? 'open suc': ''}" style="margin-top:10px;">
+      <label class="custom-input__label"><span class="custom-input__desc">Ваш e-mail</span>
+        <input class="custom-input__input" ${valueEmail} type="email" data-custom-type="email" placeholder="test@mail.ru">
+      </label>
+      <div class="custom-input__err-text">Некорректный e-mail</div>
+    </div>`
+
+    console.log(result)
+
+    showUserInfoInModal({
+      id: 'showUserInfo',
+      title: 'Подтвердите выбор',
+      body: `
+        <div class="custom-modal__inner">
+          <div class="modal-text modal-text--light">Получатель:</div>
+          ${inptName}
+        </div>
+        <div class="custom-modal__inner">
+          <div class="modal-text modal-text--light">Ваш Email:</div>
+          ${inptEmail}
+        </div>
+        <div class="custom-modal__inner">
+          <div class="modal-text modal-text--light">Адрес доставки:</div>
+          <div class="modal-text">${result['address']}</div>
+        </div>`,
+      footer: `<div class="custom-modal__multiple-btns">
+          <button id="pickpoint" class="btn btn--white btn--black-border" data-custom-modal-close="true" style="margin-top: 0;">Выбрать другой</button>
+          <button id="pickpoint-send" class="btn btn-block modal-block__body-btn" style="margin-top: 0;">Подтвердить</button>
+        </div>`
+    })
+  });
+})
+
+$('body').on('click','#pickpoint-send', (e) => {
+  const modal = e.target.closest('.custom-modal__content')
+  const inputUserName = modal.querySelector('input.custom-input__input')
+  const inputUserEmail = modal.querySelector('input.custom-input__input[data-custom-type="email"]')
+
+  if (validateCustomInput(inputUserName) && validateCustomInput(inputUserEmail)) {
+    window.userName = inputUserName.value
+    window.userEmail = inputUserEmail.value
+    orderPrintingAndDeliveryOfCertificate(12)
+    closedCustomModal(e)
+  }
+})

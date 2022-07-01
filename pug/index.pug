@@ -10,92 +10,42 @@ html(lang="ru")
     <link rel="stylesheet" href="css/app.min.css">
   body.body
     .container
-      h1 Анкета участника
-      p Добрый день!
-        <br>
-        <br>
-        |Вы прошли обучение в Академии Медицинского Образования. Нам важно знать Ваше мнение, чтобы повысить качество нашей работы.
-        <br>
-        <br>
-        |Будем благодарны Вам за ответы на вопросы:
-      form.survey
-        .survey__item.survey__item--required
-          label.survey__label
-            .survey__text E-mail 
-              span.survey__text.survey__text--red *
-            input.survey__field.survey__field--error(placeholder="Введите ваш e-mail" type="email" required)
-        .survey__item.survey__item--required
-          label.survey__label
-            .survey__text Какое обучение вы прошли? 
-              span.survey__text.survey__text--red *
-            input.survey__field(placeholder="Введите ответ" type="text")
-        .survey__note
-          .survey__text--red * 
-          | Обязательное поле для заполнения
-        .survey__item
-          label.survey__label
-            .survey__text Вам понравился семинар?
-            input.survey__field(placeholder="Введите ответ")
-        .survey__item
-          label.survey__label
-            .survey__text Вам понравился семинар?
-            input.survey__field(placeholder="Введите ответ")
-        .survey__item
-          label.survey__label
-            .survey__text Мы своевременно начислили баллы НМО прислали итоговые документы (если тариф участия предполагал выдачу документов и начисление Баллов НМО)?
-            input.survey__field(placeholder="Введите ответ")
-        .survey__item
-          label.survey__label
-            .survey__text Есть ли у Вас рекомендации по изменению содержания пройденного обучения? ( строка для предложений)
-            input.survey__field(placeholder="Введите ответ")
-        .survey__item
-          label.survey__label
-            .survey__text Планируете ли Вы проходить Периодическую аккредитацию?
-            input.survey__field(placeholder="Введите ответ")
-        .survey__item
-          label.survey__label
-            .survey__text Интересно ли Вам воспользоваться услугой комплексной подготовки к Аккредитации(сопровождение)?(Услуга предполагает обучение в необходимом объеме, возможность выбора актуальных тематик обучения, набор баллов НМО и помощь в формировании итогового комплекта документов.Обучение в рамках сопровождения выгоднее, чем прохождение каждого цикла обучения по отдельности)
-            input.survey__field(placeholder="Введите ответ")
-        .survey__item
-          label.survey__label
-            .survey__text Порекомендуете ли Вы нас Вашим коллегам? (В академии действует программа лояльности)
-            input.survey__field(placeholder="Введите ответ")
-        .survey__item
-          label.survey__label
-            .survey__text В какой организации Вы работаете? (Строка для организации.)
-            input.survey__field(placeholder="Введите ответ")
-        .survey__item
-          label.survey__label
-            .survey__text Мы хотели бы предложить обучение Вашим коллегам, с кем мы могли бы связаться в Вашей организации для этого?
-            input.survey__field(placeholder="Ваш комментарий")
-        .survey__item.survey__item--radio
-          .survey__text Поставьте нам оценку
-          .survey__radio-group
-            label.survey__label-radio 1
-              input.survey__radio(type="radio" value="1" name="rating")
-            label.survey__label-radio 2
-              input.survey__radio(type="radio" value="2" name="rating")
-            label.survey__label-radio 3
-              input.survey__radio(type="radio" value="3" name="rating")
-            label.survey__label-radio 4
-              input.survey__radio(type="radio" value="4" name="rating")
-            label.survey__label-radio 5
-              input.survey__radio(type="radio" value="5" name="rating")
-            label.survey__label-radio 6
-              input.survey__radio(type="radio" value="6" name="rating")
-            label.survey__label-radio 7 
-              input.survey__radio(type="radio" value="7" name="rating")
-            label.survey__label-radio 8
-              input.survey__radio(type="radio" value="8" name="rating")
-            label.survey__label-radio 9 
-              input.survey__radio(type="radio" value="9" name="rating")
-            label.survey__label-radio 10
-              input.survey__radio(type="radio" value="10" name="rating")
-        .survey__item
-          label.survey__label
-            .survey__text Комментарий:
-            input.survey__field(placeholder="Введите ответ")
-        button.btn.btn--green() Отправить
+      .block-num
+        .block-num__inner 
+          .block-num__item
+            img.block-num__icon(src="img/salam.png")
+            .block-num__text-wrap
+              .block-num__num 5 164
+              .block-num__text Ведем медицинских специалистов
+          .block-num__item
+            img.block-num__icon(src="img/star.png")
+            .block-num__text-wrap
+              .block-num__num 1 247
+              .block-num__text Отправляем на аккредитации
+          .block-num__item
+            img.block-num__icon(src="img/prize.png")
+            .block-num__text-wrap
+              .block-num__num 274
+              .block-num__text Успешно сдали аккредитацию
+        img.block-num__img(src="img/people.png")
+      .block-num.block-num--mini
+        .block-num__inner 
+          .block-num__item
+            img.block-num__icon(src="img/salam.png")
+            .block-num__text-wrap
+              .block-num__num 5 164
+              .block-num__text Ведем медицинских специалистов
+          .block-num__item
+            img.block-num__icon(src="img/star.png")
+            .block-num__text-wrap
+              .block-num__num 1 247
+              .block-num__text Отправляем на аккредитации
+          .block-num__item
+            img.block-num__icon(src="img/prize.png")
+            .block-num__text-wrap
+              .block-num__num 274
+              .block-num__text Успешно сдали аккредитацию
+        img.block-num__img(src="img/people.png")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     

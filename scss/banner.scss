@@ -1,0 +1,128 @@
+.block-num {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  padding: 35px;
+  padding-bottom: 0;
+  background: linear-gradient(360deg, #E8F1F6 1.93%, rgba(232, 241, 246, 0) 82.32%);
+  border: 1px solid #D3E1E6;
+  border-radius: 10px;
+
+  @media (min-width: 800px) {
+    display: block;
+    height: 147px;
+    padding: 0;
+    background: linear-gradient(270deg, #E8F1F6 10.16%, rgba(232, 241, 246, 0) 57.01%);
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (min-width: 800px) {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+  }
+
+  &__item {
+    display: flex;
+    width: 100%;
+    z-index: 2;
+    padding: 20px 0;
+    border-top: 1px solid #D3E1E6;
+    
+    @media (min-width: 800px) {
+      align-items: center;
+      margin-top: 30px;
+      width: 300px;
+      padding: 10px 60px;
+      border-top: none;
+      border-left: 1px solid #D3E1E6;
+    }
+
+    &:first-child {
+      border-top: none;
+      padding-top: 0;
+      
+      @media (min-width: 800px) {
+        padding: 10px 40px;
+        border-left: none;
+      }
+    }
+  }
+
+  &__icon {
+    max-width: 60px;
+    max-height: 60px;
+    margin-right: 20px;
+    object-fit: contain;
+  }
+
+  &__text-wrap {
+    font-family: 'Circe';
+    font-style: normal;
+  }
+
+  &__num {
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 40px;
+    color: #131313;
+    
+    @media (min-width: 800px) {
+      font-size: 40px;
+    }
+  }
+
+  &__text {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #2E2E2E;
+  }
+
+  &__img {
+    max-width: 211px;
+    max-height: 124px;
+    
+    @media (min-width: 800px) {
+      position: absolute;
+      right: 0;
+      top: 0;
+      max-width: 244px;
+      max-height: 147px;
+    }
+  }
+
+  &--mini {
+    max-width: 860px;
+  }
+
+  &--mini &__item {
+    
+    @media (min-width: 800px) {
+      margin-top: 30px;
+      width: 250px;
+      padding: 10px 30px;
+    }
+
+    &:first-child {
+      @media (min-width: 800px) {
+        padding: 10px 20px;
+      }
+    }
+  }
+
+  &--mini &__img {
+    @media (min-width: 800px) {
+      top: initial;
+      bottom: 0;
+      max-width: 181px;
+    }
+  }
+}
